@@ -1,0 +1,50 @@
+.body{
+    margin: 0;
+    padding: 0;
+}
+
+.game {
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
+/*-------------------GAME SCREEN STUFF----------------------------*/
+.gameScreen {
+    width: 680px;
+    height: 680px;
+    display: flex;
+}
+
+.tile {
+    height: 40px;
+    width: 40px;
+}
+
+.player {
+    height: 25px;
+    width: 25px;
+    background-color: blue;
+    position: absolute;
+}
+
+.bomb {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    background-color: red;
+}
+
+/* ------------------SCORE DISPLAY STUFF-----------------------------*/
+.scoreDisplay {
+    background-color: red;
+    width: 10vh;
+    height: 100px;
+}
+
+
+/* -------------------INSTRUCTION STUFF-------------------------------*/
+.insturctions {
+    background-color: aqua;
+    width: 10vh;
+    height: 300px;
+}
