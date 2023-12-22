@@ -32,17 +32,19 @@
 }
 
 .player {
-  height: 25px;
-  width: 25px;
+  height: 16px;
+  width: 16px;
   background-color: rgb(255, 255, 0);
   position: absolute;
 }
 
 .bomb {
-  height: 40px;
-  width: 40px;
+  height: 16px;
+  width: 16px;
   position: absolute;
-  background-color: red;
+  /* background-color: red; */
+  background: url("../tilemap/Sprites.png") 0px -48px;
+  z-index: 100;
 }
 
 /* ------------------SCORE DISPLAY STUFF-----------------------------*/
