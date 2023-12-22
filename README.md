@@ -1,5 +1,7 @@
 1. 20.12.2023 - 22:25 == fixed minor issue with collision
 
+//MAP
+
 **TODO:**
 
 plan for 2023
