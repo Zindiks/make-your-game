@@ -2,7 +2,7 @@ export class Player {
   constructor(x, y) {
     this.x = x
     this.y = y
-    this.speed = 1
+    this.speed = 2
     this.bombs = []
     this.maxBomb = 4
   }
@@ -11,7 +11,7 @@ export class Player {
     let playerModel = document.createElement("div")
     playerModel.className = "player"
     playerModel.id = "player"
-    playerModel.innerHTML = "Player"
+    // playerModel.innerHTML = "Player"
 
     //render player on specific coordinates
     playerModel.style.left = this.x + "px"
@@ -28,7 +28,6 @@ export class Player {
     if (this.bombs.length < this.maxBomb) {
       let bomb = document.createElement("div")
       bomb.className = "bomb"
-
       //This Boogabooga is needed in order to shift the bomb to the right place,
       // since the character is not 40x40 px
       bomb.style.left = Math.floor(this.x / 40) * 40 + "px"
