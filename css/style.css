@@ -1,7 +1,8 @@
-.body {
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: black;
 }
 
 .game {
@@ -11,40 +12,41 @@
 
 /*-------------------GAME SCREEN STUFF----------------------------*/
 .gameScreen {
-  width: 680px;
-  height: 680px;
   display: flex;
   position: relative;
 }
 
 .tile {
-  height: 40px;
-  width: 40px;
+  /* height: 40px;
+  width: 40px; */
   box-sizing: border-box;
 }
 
 .wall {
-  background-color: rgb(119, 59, 3);
+  background: url("../tilemap/Sprites.png") -48px -48px;
+}
+
+.breakable-wall {
+  background: url("../tilemap/Sprites.png") -64px -48px;
 }
 
 .space {
   background-color: green;
+  background: url("../tilemap/Sprites.png") -64px -64px;
 }
 
 .player {
-  height: 16px;
-  width: 16px;
   background-color: rgb(255, 255, 0);
   position: absolute;
+  background: url("../tilemap/Sprites.png") 0px 0px;
+  z-index: 10;
 }
 
 .bomb {
   height: 16px;
   width: 16px;
   position: absolute;
-  /* background-color: red; */
   background: url("../tilemap/Sprites.png") 0px -48px;
-  z-index: 100;
 }
 
 /* ------------------SCORE DISPLAY STUFF-----------------------------*/

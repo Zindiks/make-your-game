@@ -1,14 +1,16 @@
 import { map } from "./maps/map.js"
 import { Player } from "./classes/player.js"
 
+import { TILESIZE, PLAYERSIZE } from "./config.js"
+
 //gameScreen 680 x 680px
 const gameScreen = document.getElementById("gameScreen")
 
-const TILESIZE = 40
-const PLAYERSIZE = 16
+const gameScreenX = map.length * TILESIZE
+const gameScreenY = map.length * TILESIZE
 
-// const gameScreenX = 680
-// const gameScreenY = 680
+gameScreen.style.width = gameScreenX
+gameScreen.style.height = gameScreenY
 let collisionMap = []
 let keys = {}
 
@@ -22,7 +24,7 @@ document.addEventListener("keyup", (e) => {
   keys[e.key] = false
 })
 //PLAYER
-let player = new Player(40, 40) //COORDINATES TOP LEFTs
+let player = new Player(TILESIZE, TILESIZE) //COORDINATES TOP LEFTs
 
 function generateMap(map) {
   for (let i = 0; i < map.length; i++) {
@@ -33,6 +35,8 @@ function generateMap(map) {
       let tile = document.createElement("div")
       //Class for styling in css
       tile.className = "tile"
+      tile.style.width = TILESIZE + "px"
+      tile.style.height = TILESIZE + "px"
 
       switch (map[j][i]) {
         case 3:
@@ -40,6 +44,9 @@ function generateMap(map) {
           break
         case 0:
           tile.classList.add("space")
+          break
+        case 2:
+          tile.classList.add("breakable-wall")
           break
         default:
           break
