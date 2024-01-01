@@ -62,3 +62,10 @@ body {
   width: 10vh;
   height: 300px;
 }
+
+.explode {
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  background: url("../tilemap/Sprites.png") -32px -96px;
+}

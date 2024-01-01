@@ -24,6 +24,9 @@ export class Player {
     gameScreen.appendChild(playerModel)
   }
 
+
+  
+
   getTile() {
     return {
       x: Math.floor(this.x / TILESIZE),
@@ -33,6 +36,7 @@ export class Player {
 
   placeBomb() {
     if (this.bombs.length < this.maxBomb) {
+      let position = 0
       let bomb = document.createElement("div")
       bomb.className = "bomb"
       //This Boogabooga is needed in order to shift the bomb to the right place,
@@ -42,6 +46,48 @@ export class Player {
 
       gameScreen.appendChild(bomb)
       this.bombs.push(bomb)
+
+      let animateBomb = setInterval(() => {
+        console.log(position)
+        bomb.style.backgroundPosition = `-${position}px -48px`
+
+        if (position < 32) {
+          position += TILESIZE
+        } else {
+          position = 0
+        }
+      }, 500)
+
+      // Set a timeout for the bomb to explode after 3 seconds
+      setTimeout(() => {
+        clearInterval(animateBomb)
+        this.explode(bomb) // Call the explode function after 3 seconds
+      }, 3000) // 3000 milliseconds = 3 seconds
     }
+  }
+
+  //TODO: hardcoded solution
+  explode(bomb) {
+    //
+    bomb.className = "explode"
+
+    setTimeout(() => {
+      bomb.style.backgroundPosition = "-32px -176px"
+    }, 200)
+
+    setTimeout(() => {
+      bomb.style.backgroundPosition = "-112px -96px"
+    }, 200)
+
+    setTimeout(() => {
+      bomb.style.backgroundPosition = "-112px -176px"
+    }, 400)
+
+    setTimeout(() => {
+      bomb.className = "space"
+    }, 1000)
+
+    //reset bombs
+    this.bombs = []
   }
 }

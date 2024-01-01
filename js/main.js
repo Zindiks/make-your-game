@@ -83,18 +83,24 @@ function main() {
   if (keys["d"]) {
     if (collisionCheck(player.x + player.speed, player.y)) {
       player.x += player.speed
+      playerModel.style.backgroundPosition = `0px -16px`
+
+      //animate
     }
   } else if (keys["a"]) {
     if (collisionCheck(player.x - player.speed, player.y)) {
       player.x -= player.speed
+      playerModel.style.backgroundPosition = `0px 0px`
     }
   } else if (keys["s"]) {
     if (collisionCheck(player.x, player.y + player.speed)) {
       player.y += player.speed
+      playerModel.style.backgroundPosition = `-48px 0px`
     }
   } else if (keys["w"]) {
     if (collisionCheck(player.x, player.y - player.speed)) {
       player.y -= player.speed
+      playerModel.style.backgroundPosition = `-48px -16px`
     }
     console.log(
       `Player box: x1-${player.x}, y1-${player.y}, x2-${player.x + 30}, y2-${

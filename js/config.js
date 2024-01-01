@@ -1,4 +1,4 @@
 const TILESIZE = 16
-const PLAYERSIZE = 14
+const PLAYERSIZE = 16
 
 export { TILESIZE, PLAYERSIZE }
