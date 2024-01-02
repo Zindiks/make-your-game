@@ -51,6 +51,7 @@ export class Player {
         console.log(position)
         bomb.style.backgroundPosition = `-${position}px -48px`
 
+        // 32 is a position of bomb image in Sprites
         if (position < 32) {
           position += TILESIZE
         } else {
