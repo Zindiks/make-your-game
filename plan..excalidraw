@@ -2428,6 +2428,35 @@
       "updated": 1704376161796,
       "link": null,
       "locked": false
+    },
+    {
+      "type": "rectangle",
+      "version": 95,
+      "versionNonce": 1486761000,
+      "isDeleted": false,
+      "id": "YnFq5fJhoATCUfHPxxGk4",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": -1245.9572435389482,
+      "y": -748.3730851703199,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "width": 119.07138659120801,
+      "height": 116.85345525011098,
+      "seed": 1016299048,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [],
+      "updated": 1704385050154,
+      "link": null,
+      "locked": false
     }
   ],
   "appState": {
