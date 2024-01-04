@@ -91,13 +91,11 @@ function main() {
 
         //down
         if((player.y - player.getTile().y*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-          console.log('down');
-          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y][player.getTile().x+1] == 0){
+          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y+1][player.getTile().x+1] == 0){
             player.y += player.speed;
           }
           //up
         }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
-          console.log('up');
           if (collisionCheck(player.x, player.y - player.speed) && map[player.getTile().y][player.getTile().x+1] == 0){
             player.y -= player.speed
           }
@@ -111,13 +109,11 @@ function main() {
       //CUT CORNERS MOVEMENT COMMENTED ON THE D LETTER ALREADY
         //down
         if((player.y - player.getTile().y*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-          console.log('down');
-          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y][player.getTile().x-1] == 0){
+          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y-1][player.getTile().x-1] == 0){
             player.y += player.speed;
           }
           //up
         }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
-          console.log('up');
           if (collisionCheck(player.x, player.y - player.speed) && map[player.getTile().y][player.getTile().x-1] == 0){
             player.y -= player.speed
           }
@@ -128,18 +124,16 @@ function main() {
     if (collisionCheck(player.x, player.y + player.speed)) {
       player.y += player.speed;
       playerModel.style.backgroundPosition = `-96px 0px`
-
     }else{
 
       //HAVE TO FLIP THE LOGIC FROM DOWN TO RIGHT AND UP TO LEFT
+      //right 
       if((player.x - player.getTile().x*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-        console.log('right');
-        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y+1][player.getTile().x] == 0){
+        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y+1][player.getTile().x+1] == 0){
           player.x += player.speed;
         }
-        //up
+        //left
       }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
-        console.log('left');
         if (collisionCheck(player.x - player.speed, player.y) && map[player.getTile().y+1][player.getTile().x] == 0){
           player.x -= player.speed
         }
@@ -151,26 +145,20 @@ function main() {
       player.y -= player.speed
       playerModel.style.backgroundPosition = `-96px -32px`
     }else {
-
+      //right
       if((player.x - player.getTile().x*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-        console.log('right');
         if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y-1][player.getTile().x] == 0){
           player.x += player.speed;
         }
-        //up
+      //left
       }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
-        console.log('left');
         if (collisionCheck(player.x - player.speed, player.y) && map[player.getTile().y-1][player.getTile().x] == 0){
           player.x -= player.speed
         }
       }
 
     }
-    // console.log(
-    //   `Player box: x1-${player.x}, y1-${player.y}, x2-${player.x + 30}, y2-${
-    //     player.y + 30
-    //   }`
-    // )
+
   }
   if (keys["m"]) {
     console.log(map)
@@ -183,7 +171,6 @@ function main() {
     console.log(`current tile = ${map[player.getTile().y][player.getTile().x]}`)
   }
 
-  //collisionCheck(er.x, player.y);
   playerModel.style.left = player.x + "px"
   playerModel.style.top = player.y + "px"
 
