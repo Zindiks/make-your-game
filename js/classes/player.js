@@ -24,9 +24,6 @@ export class Player {
     gameScreen.appendChild(playerModel)
   }
 
-
-  
-
   getTile() {
     return {
       x: Math.floor(this.x / TILESIZE),
@@ -49,10 +46,10 @@ export class Player {
 
       let animateBomb = setInterval(() => {
         console.log(position)
-        bomb.style.backgroundPosition = `-${position}px -48px`
+        bomb.style.backgroundPosition = `-${position}px -96px`
 
         // 32 is a position of bomb image in Sprites
-        if (position < 32) {
+        if (position < 62) {
           position += TILESIZE
         } else {
           position = 0
@@ -73,15 +70,15 @@ export class Player {
     bomb.className = "explode"
 
     setTimeout(() => {
-      bomb.style.backgroundPosition = "-32px -176px"
+      bomb.style.backgroundPosition = "-64px -352px"
     }, 200)
 
     setTimeout(() => {
-      bomb.style.backgroundPosition = "-112px -96px"
+      bomb.style.backgroundPosition = "-224px -192px"
     }, 200)
 
     setTimeout(() => {
-      bomb.style.backgroundPosition = "-112px -176px"
+      bomb.style.backgroundPosition = "-224px -352px"
     }, 400)
 
     setTimeout(() => {
