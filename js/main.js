@@ -87,21 +87,18 @@ function main() {
       //animate
     }else{
       //has to check where to calc to go up or down 
-
-      //and only move if its like 60% already there
-      
-        //check wheter to go up or down
+      //and only move if its like 60% already there and there is no full block in front of the character
 
         //down
         if((player.y - player.getTile().y*TILESIZE) > Math.floor(TILESIZE * 0.6)){
           console.log('down');
-          if (collisionCheck(player.x, player.y + player.speed)){
+          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y][player.getTile().x+1] == 0){
             player.y += player.speed;
           }
           //up
         }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
           console.log('up');
-          if (collisionCheck(player.x, player.y - player.speed)){
+          if (collisionCheck(player.x, player.y - player.speed) && map[player.getTile().y][player.getTile().x+1] == 0){
             player.y -= player.speed
           }
         }
@@ -112,39 +109,38 @@ function main() {
       playerModel.style.backgroundPosition = `0px 0px`
     }else{
       //CUT CORNERS MOVEMENT COMMENTED ON THE D LETTER ALREADY
-      if((player.y - player.getTile().y*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-        console.log('down');
-        if (collisionCheck(player.x, player.y + player.speed)){
-          player.y += player.speed;
+        //down
+        if((player.y - player.getTile().y*TILESIZE) > Math.floor(TILESIZE * 0.6)){
+          console.log('down');
+          if (collisionCheck(player.x, player.y + player.speed) && map[player.getTile().y][player.getTile().x-1] == 0){
+            player.y += player.speed;
+          }
+          //up
+        }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
+          console.log('up');
+          if (collisionCheck(player.x, player.y - player.speed) && map[player.getTile().y][player.getTile().x-1] == 0){
+            player.y -= player.speed
+          }
         }
-        //up
-      }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
-        console.log('up');
-        if (collisionCheck(player.x, player.y - player.speed)){
-          player.y -= player.speed
-        }
-      }
 
     }
   } else if (keys["s"]) {
     if (collisionCheck(player.x, player.y + player.speed)) {
       player.y += player.speed;
       playerModel.style.backgroundPosition = `-96px 0px`
-      //DEBUF INFO
-      // console.log(`tile coords x: ${player.getTile().x*TILESIZE}, tile coords y: ${(player.getTile().y+1)*(TILESIZE)} player coords: ${player.y + player.speed}`);
-      // console.log(`Player box: x1-${player.x}, y1-${player.y}, x2-${player.x + 30}, y2-${player.y + 30}`)
+
     }else{
 
       //HAVE TO FLIP THE LOGIC FROM DOWN TO RIGHT AND UP TO LEFT
       if((player.x - player.getTile().x*TILESIZE) > Math.floor(TILESIZE * 0.6)){
         console.log('right');
-        if (collisionCheck(player.x + player.speed, player.y)){
+        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y+1][player.getTile().x] == 0){
           player.x += player.speed;
         }
         //up
       }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
         console.log('left');
-        if (collisionCheck(player.x - player.speed, player.y)){
+        if (collisionCheck(player.x - player.speed, player.y) && map[player.getTile().y+1][player.getTile().x] == 0){
           player.x -= player.speed
         }
       }
@@ -158,13 +154,13 @@ function main() {
 
       if((player.x - player.getTile().x*TILESIZE) > Math.floor(TILESIZE * 0.6)){
         console.log('right');
-        if (collisionCheck(player.x + player.speed, player.y)){
+        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y-1][player.getTile().x] == 0){
           player.x += player.speed;
         }
         //up
       }else if ((player.y - player.getTile().y*TILESIZE) < Math.round(TILESIZE * 0.4)){
         console.log('left');
-        if (collisionCheck(player.x - player.speed, player.y)){
+        if (collisionCheck(player.x - player.speed, player.y) && map[player.getTile().y-1][player.getTile().x] == 0){
           player.x -= player.speed
         }
       }
