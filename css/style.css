@@ -8,6 +8,7 @@ body {
 .game {
   display: grid;
   grid-template-columns: 80% 20%;
+  margin: 100px;
 }
 
 /*-------------------GAME SCREEN STUFF----------------------------*/
