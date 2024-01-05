@@ -11,7 +11,7 @@ export class Bomb {
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 10
+    this.power = 2;
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
     htmlElem.style.top = y * TILESIZE + "px"
@@ -22,7 +22,6 @@ export class Bomb {
   animateBomb() {
     return setInterval(() => {
       this.htmlElem.style.backgroundPosition = `-${this.position}px -96px`
-      // console.log(this.position);
       // 32 is a position of bomb image in Sprites
       if (this.position < 62) {
         this.position += TILESIZE
@@ -31,28 +30,10 @@ export class Bomb {
       }
     }, BOMBSPEED)
   }
-s
-  //TODO: hardcoded solution
-
   //TEST
   explode() {
+    //remove bomb sprite
     this.htmlElem.className = "space"
-
-    // setTimeout(() => {
-    //     this.htmlElem.style.backgroundPosition = "-64px -352px"
-    // }, 100)
-
-    // setTimeout(() => {
-    //     this.htmlElem.style.backgroundPosition = "-224px -192px"
-    // }, 200)
-
-    // setTimeout(() => {
-    //     this.htmlElem.style.backgroundPosition = "-224px -352px"
-    // }, 300)
-
-    // setTimeout(() => {
-    //     this.htmlElem.className = "space"
-    // }, 400)
 
     let explosionArray = [
       { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false },
@@ -172,7 +153,6 @@ s
         left = true
       }
     }
-    // console.log(explosionArray);
 
     //Check which block is which vertical/horisontal/end piece
     let directionCount = {}
@@ -203,20 +183,47 @@ s
         }
       }
     }
-    // console.log(directionCount);
 
     //explosion animation
     for (let item of explosionArray) {
       let tile = document.getElementsByClassName(`${item.y}-${item.x}`)
       //animate bomb
-      // explodeAnimation()
       item["obj"] = tile[0]
       explodeAnimation(item)
-      // tile[0].style.backgroundPosition = "-64px -352px";
       //check for player / enemy collision with bomb
       for (let entity of entities) {
-        if (entity.getTile().x == item.x && entity.getTile().y == item.y) {
+        if (entity.getTile().x == item.x && entity.getTile().y == item.y && entity.isVulnerableToDmg) {
           console.log(`${entity} got hit!`)
+          if(entity.lives == 1){
+            entity.lives = 0;
+            console.log('gameover');
+            //animate death, death screen etc
+            let deadAnimationId = animate(entity, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 500);
+            setTimeout(() => {
+              stopAnimate(deadAnimationId);
+            }, 500)
+          }else{
+            entity.lives--;
+            console.log(entity.lives)
+            entity.isVulnerableToDmg = false;
+            //animation wheter character takes damage or no, just opcaity controller
+            let opacityController = 0.2;
+            let plusOrMinus = 1;
+            let playerDeadAnim = setInterval(() => {
+              entity.playerModel.style.opacity = 1 - opacityController;
+              opacityController += 0.2 * plusOrMinus
+              if (opacityController <= 0.4){
+                plusOrMinus *= -1;
+              }
+            }, 100)
+
+            //Player takes damage again, and remove the animation which shows that player does not take damage
+            setTimeout(() => {
+              clearInterval(playerDeadAnim);
+              entity.isVulnerableToDmg = true
+              entity.playerModel.style.opacity = 1;
+            }, 3000);
+          }
         }
       }
     }
