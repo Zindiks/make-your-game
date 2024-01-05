@@ -1,7 +1,7 @@
-import { TILESIZE, EXPLOSION } from "../config"
+import { TILESIZE, EXPLOSION } from "../config.js"
 
-function explodeAnimation(obj) {
-  const { obj, piece, isLast } = obj
+function explodeAnimation(objIn) {
+  const { obj, piece, isLast } = objIn
   const center = [
     [64, 192],
     [224, 192],
@@ -90,4 +90,4 @@ function stop() {
   clearInterval(id)
 }
 
-return { explodeAnimation }
+export { explodeAnimation }

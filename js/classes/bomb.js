@@ -2,6 +2,7 @@ import { TILESIZE, BOMBSPEED, SPRITES } from "../config.js"
 import { map, entities } from "../maps/map.js"
 import { collisionMapRefresh } from "../helpers/collisionDetection.js"
 import { animate, stopAnimate } from "../script.js";
+import { explodeAnimation } from "../helpers/animateExplotion.js";
 
 export class Bomb {
   constructor(x, y, id, htmlElem, position) {
@@ -10,7 +11,7 @@ export class Bomb {
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 2
+    this.power = 4;
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
     htmlElem.style.top = y * TILESIZE + "px"
@@ -114,7 +115,7 @@ export class Bomb {
             left = true;
           }
         }
-        console.log(explosionArray);
+        // console.log(explosionArray);
 
         //Check which block is which vertical/horisontal/end piece
         let directionCount = {};
@@ -134,15 +135,17 @@ export class Bomb {
             }
           }
         }
-        console.log(directionCount);
+        // console.log(directionCount);
 
 
         //explosion animation
         for(let item of explosionArray){
           let tile = document.getElementsByClassName(`${item.y}-${item.x}`);
           //animate bomb
-          let bombExplosionId = animate(tile[0])
-          tile[0].style.backgroundPosition = "-64px -352px";
+          // explodeAnimation()
+          item['obj'] = tile[0];
+          explodeAnimation(item);
+          // tile[0].style.backgroundPosition = "-64px -352px";
           //check for player / enemy collision with bomb
           for(let entity of entities){
             if (entity.getTile().x == item.x && entity.getTile().y == item.y){
