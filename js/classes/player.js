@@ -1,6 +1,7 @@
 import { TILESIZE, PLAYERSIZE } from "../config.js"
 import { Bomb } from "./bomb.js"
-
+import { bombGlobalArray } from "./bomb.js"
+import { removeBombFromArray } from "../helpers/animateExplotion.js"
 export class Player {
   constructor(x, y) {
     this.x = x
@@ -21,6 +22,7 @@ export class Player {
     this.playerModel.id = "player"
     this.playerModel.style.width = PLAYERSIZE + "px"
     this.playerModel.style.height = PLAYERSIZE + "px"
+    // playerModel.innerHTML = "Player"
 
     //render player on specific coordinates
     this.playerModel.style.left = this.x + "px"
@@ -59,31 +61,33 @@ export class Player {
         //create html element for bomb
         let bomb = document.createElement("div")
         const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0);
-        this.bombs.push(bombObj);
         //add bomb to gamescreen
         gameScreen.appendChild(bomb);
         this.lastBombPlace = Date.now();
-  
+        this.bombs.push(bombObj);
+        
         // Set a timeout for the bomb to explode after 3 seconds
         //first animate bomb after 3 seconds explode
         let animationId = bombObj.animateBomb();
-  
-        setTimeout(() => {
+
+        bombObj.timeoutId = setTimeout(() => {
           clearInterval(animationId);
-          bombObj.explode(); // Call the explode function after 3 seconds
-  
-          //remove the bomb from the array
-          for(let i = 0; i < this.bombs.length; i++){
-            if (this.bombs[i].id == bombObj.id){
-              this.bombs.splice(this.bombs.indexOf(bombObj), 1)
-            }
-          }
+          bombObj.explode(this.bombs); // Call the explode function after 3 seconds
+          
+          // remove the bomb from the array
+          removeBombFromArray(this.bombs, bombObj);
+
+          removeBombFromArray(bombGlobalArray, bombObj);
+
         }, 3000) // 3000 milliseconds = 3 seconds
-  
+        //add bombs to global table
+        bombGlobalArray.push(bombObj);
       }else{
         console.log('Bomb max limit exceeded!');
       }
     }
   }
+
+ 
 
 }
