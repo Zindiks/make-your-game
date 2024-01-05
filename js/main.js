@@ -1,5 +1,6 @@
-import { map } from "./maps/map.js"
+import { map, collisionMap } from "./maps/map.js"
 import { Player } from "./classes/player.js"
+import { collisionCheck, collisionMapRefresh } from "./helpers/collisionDetection.js"
 
 import { TILESIZE, PLAYERSIZE, SPRITES } from "./config.js"
 import { animate, stopAnimate } from "./script.js"
@@ -16,7 +17,6 @@ gameScreen.style.height = gameScreenY
 //PLAYER
 let player = new Player(TILESIZE, TILESIZE) //COORDINATES TOP LEFTs
 
-let collisionMap = []
 let keys = {}
 
 //Global event listeners
@@ -35,26 +35,22 @@ function generateMap(map) {
 
       switch (map[j][i]) {
         case 3:
-          tile.classList.add("wall")
+          tile.classList.add("wall");
+          tile.classList.add(`${j}-${i}`)
           break
         case 0:
           tile.classList.add("space")
+          tile.classList.add(`${j}-${i}`)
           break
         case 2:
           tile.classList.add("breakable-wall")
+          tile.classList.add(`${j}-${i}`)
           break
         default:
           break
       }
 
-      if (map[j][i] !== 0) {
-        collisionMap.push([
-          i * TILESIZE,
-          j * TILESIZE,
-          i * TILESIZE + TILESIZE,
-          j * TILESIZE + TILESIZE,
-        ])
-      }
+      collisionMapRefresh(map);
       //   tile.innerHTML = map[i][j]
 
       column.appendChild(tile)
@@ -72,58 +68,68 @@ function initGame() {
 initGame()
 
 const playerModel = document.getElementById("player")
+//animation stuff
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keypress", (e) => {
   keys[e.key] = true
-  if (e.key == "d") {
-    animate(
-      playerModel,
-      SPRITES.player.right.startPosX,
-      SPRITES.player.right.endPosX,
-      SPRITES.player.right.Y,
-      1000
-    )
-  } else if (e.key === "a") {
-    animate(
-      playerModel,
-      SPRITES.player.left.startPosX,
-      SPRITES.player.left.endPosX,
-      SPRITES.player.left.Y,
-      1000
-    )
-  } else if (e.key === "w") {
-    animate(
-      playerModel,
-      SPRITES.player.up.startPosX,
-      SPRITES.player.up.endPosX,
-      SPRITES.player.up.Y,
-      1000
-    )
-  } else if (e.key === "s") {
-    animate(
-      playerModel,
-      SPRITES.player.down.startPosX,
-      SPRITES.player.down.endPosX,
-      SPRITES.player.down.Y,
-      1000
-    )
-  } else {
-    stopAnimate()
-  }
+//   let animid;
+//   if (e.key == "d") {
+//     animid = animate(
+//       playerModel,
+//       SPRITES.player.right.startPosX,
+//       SPRITES.player.right.endPosX,
+//       SPRITES.player.right.Y,
+//       1000
+//     )
+//   } else if (e.key === "a") {
+//     animid = animate(
+//       playerModel,
+//       SPRITES.player.left.startPosX,
+//       SPRITES.player.left.endPosX,
+//       SPRITES.player.left.Y,
+//       1000
+//     )
+//   } else if (e.key === "w") {
+//     animid = animate(
+//       playerModel,
+//       SPRITES.player.up.startPosX,
+//       SPRITES.player.up.endPosX,
+//       SPRITES.player.up.Y,
+//       1000
+//     )
+//   } else if (e.key === "s") {
+//     animid = animate(
+//       playerModel,
+//       SPRITES.player.down.startPosX,
+//       SPRITES.player.down.endPosX,
+//       SPRITES.player.down.Y,
+//       1000
+//     )
+//   } else {
+//     stopAnimate(animid)
+//     animid = null;
+//   }
 })
 
 document.addEventListener("keyup", (e) => {
-  stopAnimate()
   keys[e.key] = false
-  console.log("HERE")
+  //check for idle status
+  for(let item of Reflect.ownKeys(keys)){
+    if(!keys[item]){
+      player.direction = 'idle';
+    }
+  }
+  
 })
 
 //Main game loop
 function main() {
+  // console.log(player.direction);
   if (keys["d"]) {
     if (collisionCheck(player.x + player.speed, player.y)) {
       player.x += player.speed
-      // playerModel.style.backgroundPosition = `0px -${TILESIZE}px`
+      playerModel.style.backgroundPosition = `0px -${TILESIZE}px`
+      player.direction = 'right';
       //animate
     } else {
       //has to check where to calc to go up or down
@@ -156,7 +162,8 @@ function main() {
   } else if (keys["a"]) {
     if (collisionCheck(player.x - player.speed, player.y)) {
       player.x -= player.speed
-      // playerModel.style.backgroundPosition = `0px 0px`
+      playerModel.style.backgroundPosition = `0px 0px`
+      player.direction = 'left';
     } else {
       //CUT CORNERS MOVEMENT COMMENTED ON THE D LETTER ALREADY
       //down
@@ -186,7 +193,8 @@ function main() {
   } else if (keys["s"]) {
     if (collisionCheck(player.x, player.y + player.speed)) {
       player.y += player.speed
-      // playerModel.style.backgroundPosition = `-96px 0px`
+      playerModel.style.backgroundPosition = `-96px 0px`
+      player.direction = 'down';
     } else {
       //HAVE TO FLIP THE LOGIC FROM DOWN TO RIGHT AND UP TO LEFT
       //right
@@ -216,7 +224,8 @@ function main() {
   } else if (keys["w"]) {
     if (collisionCheck(player.x, player.y - player.speed)) {
       player.y -= player.speed
-      // playerModel.style.backgroundPosition = `-96px -32px`
+      playerModel.style.backgroundPosition = `-96px -32px`
+      player.direction = 'up';
     } else {
       //right
       if (
@@ -264,20 +273,3 @@ function main() {
 
 //Start the main loop
 requestAnimationFrame(main)
-
-//Collision checking
-
-function collisionCheck(playerx, playery) {
-  for (let tile of collisionMap) {
-    //  X1-tile[0]  Y1-tile[1] X2-tile[2] Y-2tile[3]
-    if (
-      playerx < tile[0] + TILESIZE &&
-      playerx + PLAYERSIZE > tile[0] &&
-      playery < tile[1] + TILESIZE &&
-      playery + PLAYERSIZE > tile[1]
-    ) {
-      return false
-    }
-  }
-  return true
-}

@@ -18,6 +18,8 @@ export const map = [
   [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 ]
 
+export const collisionMap = [];
+
 // 0 == space
 
 // 2 == brekable wall

@@ -8,6 +8,7 @@ export class Player {
     this.speed = 1
     this.bombs = []
     this.maxBomb = 4
+    this.direction = 'idle';
   }
 
   renderPlayer(gameScreen) {
@@ -60,12 +61,17 @@ export class Player {
       // Set a timeout for the bomb to explode after 3 seconds
       //first animate bomb after 3 seconds explode
       let animationId = bombObj.animateBomb();
+
       setTimeout(() => {
         clearInterval(animationId);
         bombObj.explode(); // Call the explode function after 3 seconds
-        // for(let bomb of this.bombs){
-        //   if 
-        // }
+
+        //remove the bomb from the array
+        for(let i = 0; i < this.bombs.length; i++){
+          if (this.bombs[i].id == bombObj.id){
+            this.bombs.splice(this.bombs.indexOf(bombObj), 1)
+          }
+        }
       }, 3000) // 3000 milliseconds = 3 seconds
 
     }else{

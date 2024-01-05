@@ -20,8 +20,8 @@ function animate(obj, start, end, y, cycle) {
   }, interval)
 }
 
-function stopAnimate() {
-  clearInterval(animate)
+function stopAnimate(animid) {
+  clearInterval(animid)
 }
 
 export { animate, stopAnimate }
