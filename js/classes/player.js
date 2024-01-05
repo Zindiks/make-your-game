@@ -1,6 +1,7 @@
 import { TILESIZE, PLAYERSIZE } from "../config.js"
 import { Bomb } from "./bomb.js"
-
+import { bombGlobalArray } from "./bomb.js"
+import { removeBombFromArray } from "../helpers/animateExplotion.js"
 export class Player {
   constructor(x, y) {
     this.x = x
@@ -63,6 +64,7 @@ export class Player {
         //add bomb to gamescreen
         gameScreen.appendChild(bomb);
         this.lastBombPlace = Date.now();
+        this.bombs.push(bombObj);
         
         // Set a timeout for the bomb to explode after 3 seconds
         //first animate bomb after 3 seconds explode
@@ -70,23 +72,16 @@ export class Player {
 
         bombObj.timeoutId = setTimeout(() => {
           clearInterval(animationId);
-
-          // console.log(this.bombs);
           bombObj.explode(this.bombs); // Call the explode function after 3 seconds
           
           // remove the bomb from the array
-          for(let i = 0; i < this.bombs.length; i++){
-            if (this.bombs[i].id === bombObj.id){
-              console.log('need to remove bomb number', bombObj.id);
-              setTimeout(() => {
-                this.bombs.splice(i, 1)
-                console.log('removed from array');
-              }, 1100);
-            }
-          }
-        }, 3000) // 3000 milliseconds = 3 seconds
-        this.bombs.push(bombObj);
+          removeBombFromArray(this.bombs, bombObj);
 
+          removeBombFromArray(bombGlobalArray, bombObj);
+
+        }, 3000) // 3000 milliseconds = 3 seconds
+        //add bombs to global table
+        bombGlobalArray.push(bombObj);
       }else{
         console.log('Bomb max limit exceeded!');
       }

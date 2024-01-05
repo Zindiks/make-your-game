@@ -96,7 +96,16 @@ function animate(obj, arr, time) {
 }
 
 function stop(id) {
-  clearInterval(id)
+  clearTimeout(id)
 }
 
-export { explodeAnimation }
+function removeBombFromArray(bombArr, bomb){
+  for(let i = 0; i < bombArr.length; i++){
+    if (bombArr[i].id === bomb.id){
+      bombArr.splice(i, 1)
+      i--;
+    }
+  }
+}
+
+export { explodeAnimation, removeBombFromArray }

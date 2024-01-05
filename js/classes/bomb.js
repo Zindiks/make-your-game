@@ -2,8 +2,9 @@ import { TILESIZE, BOMBSPEED, SPRITES } from "../config.js"
 import { map, entities } from "../maps/map.js"
 import { collisionMapRefresh } from "../helpers/collisionDetection.js"
 import { animate, stopAnimate } from "../script.js"
-import { explodeAnimation } from "../helpers/animateExplotion.js"
+import { explodeAnimation, removeBombFromArray } from "../helpers/animateExplotion.js"
 
+export const bombGlobalArray = [];
 export class Bomb {
   constructor(x, y, id, htmlElem, position) {
     this.x = x
@@ -33,13 +34,10 @@ export class Bomb {
   //TEST
   explode(bombs) {
     //remove bomb sprite
-    let test = Date.now();
-    console.log('test', test);
-    console.log(bombs);
     this.htmlElem.className = "space"
 
     let explosionArray = [
-      { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false },
+      { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false , bomb_id: this.id},
     ]
     let breakArray = []
     let down,
@@ -58,6 +56,7 @@ export class Bomb {
             exPower: i,
             piece: "down",
             isLast: true,
+            bomb_id: this.id,
           })
         } else {
           explosionArray.push({
@@ -65,6 +64,7 @@ export class Bomb {
             y: this.y + i,
             exPower: i,
             piece: "down",
+            bomb_id: this.id,
           })
         }
         //breaking logic
@@ -90,6 +90,7 @@ export class Bomb {
             exPower: i,
             piece: "right",
             isLast: true,
+            bomb_id: this.id,
           })
         } else {
           explosionArray.push({
@@ -97,6 +98,7 @@ export class Bomb {
             y: this.y,
             exPower: i,
             piece: "right",
+            bomb_id: this.id,
           })
         }
       } else if (
@@ -117,6 +119,7 @@ export class Bomb {
             exPower: i,
             piece: "up",
             isLast: true,
+            bomb_id: this.id,
           })
         } else {
           explosionArray.push({
@@ -124,6 +127,7 @@ export class Bomb {
             y: this.y - i,
             exPower: i,
             piece: "up",
+            bomb_id: this.id,
           })
         }
       } else if (this.y - i >= 0 && map[this.y - i][this.x] == 2 && !up) {
@@ -140,6 +144,7 @@ export class Bomb {
             exPower: i,
             piece: "left",
             isLast: true,
+            bomb_id: this.id,
           })
         } else {
           explosionArray.push({
@@ -147,6 +152,7 @@ export class Bomb {
             y: this.y,
             exPower: i,
             piece: "left",
+            bomb_id: this.id,
           })
         }
       } else if (this.x - i >= 0 && map[this.y][this.x - i] == 2 && !left) {
@@ -190,6 +196,18 @@ export class Bomb {
     //explosion animation
     for (let item of explosionArray) {
       let tile = document.getElementsByClassName(`${item.y}-${item.x}`)
+      //check if there is another bomb in the way
+      for(let bomb of bombGlobalArray){
+        if(bomb.x === item.x && bomb.y === item.y && bomb.id !== item.bomb_id){
+          //clear the animation
+          clearTimeout(bomb.timeoutId);
+          //remove bombs from both arrays
+          removeBombFromArray(bombGlobalArray, bomb);
+          removeBombFromArray(bombs, bomb);
+          //explosion animation
+          bomb.explode(bombs);
+        }
+      }
       //animate bomb
       item["obj"] = tile[0]
       explodeAnimation(item)
@@ -201,7 +219,7 @@ export class Bomb {
             entity.lives = 0;
             console.log('gameover');
             //animate death, death screen etc
-            let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000);
+            let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000, false);
             setTimeout(() => {
               stopAnimate(deadAnimationId);
             }, 1200)
@@ -248,14 +266,8 @@ export class Bomb {
         tile[0].style.backgroundPosition = ""
       }, 400)
     }
-    // for(let bomb of bombArr){
-    //   if(bomb.timeoutId){
-    //     clearTimeout(bomb.timeoutId);
-    //   }
-    // }
 
     collisionMapRefresh(map)
-    console.log(Date.now() - test);
-    console.log('later', Date.now());
+
   }
 }

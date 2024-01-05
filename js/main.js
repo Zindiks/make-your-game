@@ -4,7 +4,7 @@ import { collisionCheck, collisionMapRefresh } from "./helpers/collisionDetectio
 
 import { TILESIZE, PLAYERSIZE, SPRITES } from "./config.js"
 import { animate, stopAnimate } from "./script.js"
-
+import { bombGlobalArray } from "./classes/bomb.js"
 //gameScreen 680 x 680px
 const gameScreen = document.getElementById("gameScreen")
 const gameScreenX = map.length * TILESIZE
@@ -250,10 +250,11 @@ function main() {
     }
   }
   if (keys["m"]) {
-    console.log(Date.now())
+    console.log(player.bombs)
+    // bombGlobalArray.forEach((val) => console.log(val));
   }
   if (keys[" "]) {
-    player.placeBomb()
+      player.placeBomb()
   }
   if (keys["t"]) {
     console.log(

@@ -1,7 +1,7 @@
 const TILESIZE = 32
 const PLAYERSIZE = 32
 const BOMBSPEED = 200 //Milliseconds
-const EXPLOSION = 500
+const EXPLOSION = 400
 
 //HERE: DETERMINATED SPRITES POSITIONS
 const SPRITES = {
