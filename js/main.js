@@ -1,4 +1,4 @@
-import { map, collisionMap } from "./maps/map.js"
+import { map, entities } from "./maps/map.js"
 import { Player } from "./classes/player.js"
 import { collisionCheck, collisionMapRefresh } from "./helpers/collisionDetection.js"
 
@@ -16,6 +16,8 @@ gameScreen.style.height = gameScreenY
 
 //PLAYER
 let player = new Player(TILESIZE, TILESIZE) //COORDINATES TOP LEFTs
+//Add player to entities array
+entities.push(player);
 
 let keys = {}
 
@@ -253,7 +255,7 @@ function main() {
     }
   }
   if (keys["m"]) {
-    console.log(map)
+    console.log(Date.now())
   }
   if (keys["n"]) {
     player.placeBomb()

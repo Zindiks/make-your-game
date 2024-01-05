@@ -19,6 +19,7 @@ export const map = [
 ]
 
 export const collisionMap = [];
+export const entities = [];
 
 // 0 == space
 
