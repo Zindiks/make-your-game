@@ -3,6 +3,7 @@ const PLAYERSIZE = 32
 const BOMBSPEED = 200 //Milliseconds
 
 
+
 //HERE: DETERMINATED SPRITES POSITIONS 
 const SPRITES = {
   player: {

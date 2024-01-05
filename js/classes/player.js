@@ -1,4 +1,4 @@
-import { TILESIZE, PLAYERSIZE, SPRITES } from "../config.js"
+import { TILESIZE, PLAYERSIZE } from "../config.js"
 import { Bomb } from "./bomb.js"
 
 export class Player {
