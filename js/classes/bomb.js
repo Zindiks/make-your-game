@@ -10,7 +10,7 @@ export class Bomb{
         this.id = id;
         this.htmlElem = htmlElem;
         this.position = position;
-        this.power = 3;
+        this.power = 2;
         //Place bomb to the field
         htmlElem.style.left = x * TILESIZE + "px";
         htmlElem.style.top = y * TILESIZE + "px";
@@ -116,17 +116,24 @@ export class Bomb{
         console.log(explosionArray);
 
         //Check which block is which vertical/horisontal/end piece
+        let directionCount = {};
         for(let item of explosionArray){
           if(!item.rotation){
-            const pieceCountWithEnd = explosionArray.reduce((count, obj) => count + (obj.piece === item.piece ? 1 : 0), 0);
-            const pieceCountWithOutEnd = explosionArray.reduce((count, obj) => count + (obj.piece === item.piece && obj.isLast === undefined ? 1 : 0), 0);
-            if(pieceCountWithEnd == pieceCountWithOutEnd){
+            if(!Reflect.ownKeys(directionCount).includes(item.piece) && item.piece != 'center'){
+              const pieceCountWithEnd = explosionArray.reduce((count, obj) => count + (obj.piece === item.piece ? 1 : 0), 0);
+              const pieceCountWithOutEnd = explosionArray.reduce((count, obj) => count + (obj.piece === item.piece && obj.isLast === undefined ? 1 : 0), 0);
+              if (pieceCountWithEnd == pieceCountWithOutEnd){
+                directionCount[item.piece] = pieceCountWithOutEnd
+              }
+            }
+            if(item.exPower == directionCount[item.piece]){
               item['isLast'] = true;
             }else if(item.isLast === undefined){
               item['isLast'] = false;
             }
           }
         }
+        console.log(directionCount);
 
 
         //explosion animation
