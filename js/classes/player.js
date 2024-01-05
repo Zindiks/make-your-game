@@ -1,4 +1,5 @@
-import { TILESIZE, PLAYERSIZE } from "../config.js"
+import { TILESIZE, PLAYERSIZE, SPRITES } from "../config.js"
+import { animate, stopAnimate } from "../script.js"
 import { Bomb } from "./bomb.js"
 
 export class Player {
@@ -46,8 +47,8 @@ export class Player {
       while(true){
         if(!this.bombs.includes(bomb_id)){
           break
-        }else{
-          bomb_id = Math.floor(Math.random() * 100);
+        } else {
+          bomb_id = Math.floor(Math.random() * 100)
         }
       }
       //create html element for bomb
