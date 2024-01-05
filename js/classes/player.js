@@ -1,4 +1,5 @@
 import { TILESIZE, PLAYERSIZE } from "../config.js"
+import { Bomb } from "./bomb.js"
 
 export class Player {
   constructor(x, y) {
@@ -32,20 +33,43 @@ export class Player {
   }
 
   placeBomb() {
+    //firstly check wheter maximum bomb placement is exceeded or is there already bomb in that tile
+    //If there is bomb on that tile
+    for(let bomb of this.bombs){
+      if(bomb.x == this.getTile().x && bomb.y == this.getTile().y){
+        console.log('Already bomb');
+        return;
+      }
+    }
+
     if (this.bombs.length < this.maxBomb) {
+      console.log(this.bombs.length)
+      //calculate bomb id
+      let bomb_id = Math.floor(Math.random() * 100);
+      while(true){
+        if(!this.bombs.includes(bomb_id)){
+          //console.log(bomb_id);
+          break
+        }else{
+          bomb_id = Math.floor(Math.random() * 100);
+        }
+      }
+      
       let position = 0
       let bomb = document.createElement("div")
       bomb.className = "bomb"
-      //This Boogabooga is needed in order to shift the bomb to the right place,
+      //shift the bomb to the right place,
       // since the character is not 40x40 px
-      bomb.style.left = Math.floor(this.x / TILESIZE) * TILESIZE + "px"
-      bomb.style.top = Math.floor(this.y / TILESIZE) * TILESIZE + "px"
+      bomb.style.left = this.getTile().x * TILESIZE + "px"
+      bomb.style.top = this.getTile().y * TILESIZE + "px"
 
-      gameScreen.appendChild(bomb)
-      this.bombs.push(bomb)
+      gameScreen.appendChild(bomb);
+
+      const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id);
+      this.bombs.push(bombObj);
 
       let animateBomb = setInterval(() => {
-        console.log(position)
+        //console.log(position)
         bomb.style.backgroundPosition = `-${position}px -96px`
 
         // 32 is a position of bomb image in Sprites
@@ -54,7 +78,7 @@ export class Player {
         } else {
           position = 0
         }
-      }, 500)
+      }, 200)
 
       // Set a timeout for the bomb to explode after 3 seconds
       setTimeout(() => {
@@ -86,6 +110,6 @@ export class Player {
     }, 1000)
 
     //reset bombs
-    this.bombs = []
+    this.bombs = [];
   }
 }

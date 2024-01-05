@@ -147,7 +147,7 @@ function main() {
     }else {
       //right
       if((player.x - player.getTile().x*TILESIZE) > Math.floor(TILESIZE * 0.6)){
-        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y-1][player.getTile().x] == 0){
+        if (collisionCheck(player.x + player.speed, player.y) && map[player.getTile().y-1][player.getTile().x+1] == 0){
           player.x += player.speed;
         }
       //left
