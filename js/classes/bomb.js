@@ -31,8 +31,11 @@ export class Bomb {
     }, BOMBSPEED)
   }
   //TEST
-  explode() {
+  explode(bombs) {
     //remove bomb sprite
+    let test = Date.now();
+    console.log('test', test);
+    console.log(bombs);
     this.htmlElem.className = "space"
 
     let explosionArray = [
@@ -245,6 +248,14 @@ export class Bomb {
         tile[0].style.backgroundPosition = ""
       }, 400)
     }
+    // for(let bomb of bombArr){
+    //   if(bomb.timeoutId){
+    //     clearTimeout(bomb.timeoutId);
+    //   }
+    // }
+
     collisionMapRefresh(map)
+    console.log(Date.now() - test);
+    console.log('later', Date.now());
   }
 }

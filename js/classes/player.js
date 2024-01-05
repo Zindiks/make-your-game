@@ -21,6 +21,7 @@ export class Player {
     this.playerModel.id = "player"
     this.playerModel.style.width = PLAYERSIZE + "px"
     this.playerModel.style.height = PLAYERSIZE + "px"
+    // playerModel.innerHTML = "Player"
 
     //render player on specific coordinates
     this.playerModel.style.left = this.x + "px"
@@ -59,31 +60,39 @@ export class Player {
         //create html element for bomb
         let bomb = document.createElement("div")
         const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0);
-        this.bombs.push(bombObj);
         //add bomb to gamescreen
         gameScreen.appendChild(bomb);
         this.lastBombPlace = Date.now();
-  
+        
         // Set a timeout for the bomb to explode after 3 seconds
         //first animate bomb after 3 seconds explode
         let animationId = bombObj.animateBomb();
-  
-        setTimeout(() => {
+
+        bombObj.timeoutId = setTimeout(() => {
           clearInterval(animationId);
-          bombObj.explode(); // Call the explode function after 3 seconds
-  
-          //remove the bomb from the array
+
+          // console.log(this.bombs);
+          bombObj.explode(this.bombs); // Call the explode function after 3 seconds
+          
+          // remove the bomb from the array
           for(let i = 0; i < this.bombs.length; i++){
-            if (this.bombs[i].id == bombObj.id){
-              this.bombs.splice(this.bombs.indexOf(bombObj), 1)
+            if (this.bombs[i].id === bombObj.id){
+              console.log('need to remove bomb number', bombObj.id);
+              setTimeout(() => {
+                this.bombs.splice(i, 1)
+                console.log('removed from array');
+              }, 1100);
             }
           }
         }, 3000) // 3000 milliseconds = 3 seconds
-  
+        this.bombs.push(bombObj);
+
       }else{
         console.log('Bomb max limit exceeded!');
       }
     }
   }
+
+ 
 
 }

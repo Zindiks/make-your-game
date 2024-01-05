@@ -38,6 +38,12 @@ const playerModel = document.getElementById("player")
 //animation stuff
 
 document.addEventListener("keydown", (e) => {
+  if(e.key == 'r'){
+    console.log('r');
+    gameRunning = true;
+    player.lives = 3;
+    requestAnimationFrame(main);
+  }
   if (!gameRunning){
     return
   }
