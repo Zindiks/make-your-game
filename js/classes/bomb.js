@@ -198,10 +198,10 @@ export class Bomb {
             entity.lives = 0;
             console.log('gameover');
             //animate death, death screen etc
-            let deadAnimationId = animate(entity, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 500);
+            let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000);
             setTimeout(() => {
               stopAnimate(deadAnimationId);
-            }, 500)
+            }, 1200)
           }else{
             entity.lives--;
             console.log(entity.lives)
