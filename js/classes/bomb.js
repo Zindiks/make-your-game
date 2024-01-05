@@ -9,7 +9,7 @@ export class Bomb{
         this.id = id;
         this.htmlElem = htmlElem;
         this.position = position;
-        this.power = 3;
+        this.power = 2;
         //Place bomb to the field
         htmlElem.style.left = x * TILESIZE + "px";
         htmlElem.style.top = y * TILESIZE + "px";
