@@ -27,6 +27,8 @@ export class Bomb{
       }, BOMBSPEED)}
 
       //TODO: hardcoded solution
+
+      //TEST
     explode() {
         this.htmlElem.className = "explode"
 
