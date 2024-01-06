@@ -164,6 +164,7 @@ function main() {
       player.isDead = true;
     }
   }
+  console.log('enemy.currenttarget', enemy.currentTarget.length);
   if(enemy.currentTarget.length > 0 && !enemy.isMoving){
     enemy.isMoving = true;
     enemy.moveToTile(enemy.currentTarget[0], enemy.currentTarget[1]);
