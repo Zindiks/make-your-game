@@ -12,7 +12,7 @@ const gameScreenY = map.length * TILESIZE
 
 gameScreen.style.width = gameScreenX
 gameScreen.style.height = gameScreenY
-
+let gameRunning = true;
 //PLAYER
 let player = new Player(TILESIZE, TILESIZE) //COORDINATES TOP LEFTs
 //Add player to entities array
@@ -38,6 +38,9 @@ const playerModel = document.getElementById("player")
 //animation stuff
 
 document.addEventListener("keydown", (e) => {
+  if (!gameRunning){
+    return
+  }
   keys[e.key] = true
   if (e.key == "d" && !animations[rightAnimId]) {
     rightAnimId = animate(
@@ -79,6 +82,9 @@ document.addEventListener("keydown", (e) => {
 })
 
 document.addEventListener("keyup", (e) => {
+  if (!gameRunning){
+    return
+  }
   keys[e.key] = false
   //check for idle status
   if (e.key == 'd'){
@@ -104,7 +110,12 @@ document.addEventListener("keyup", (e) => {
 
 //Main game loop
 function main() {
-  // console.log(player.direction);
+  if(player.lives == 0){
+    gameRunning = false;
+  }
+  if (!gameRunning){
+    return
+  }
   if (keys["d"]) {
     if (collisionCheck(player.x + player.speed, player.y)) {
       player.x += player.speed

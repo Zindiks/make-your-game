@@ -11,21 +11,22 @@ export class Player {
     this.direction = 'idle';
     this.bombPlacementDelay = 1000; //In milliseconds
     this.lastBombPlace = Date.now()-this.bombPlacementDelay;
+    this.lives = 3;
+    this.isVulnerableToDmg = true;
+    this.playerModel = document.createElement("div")
   }
 
   renderPlayer(gameScreen) {
-    let playerModel = document.createElement("div")
-    playerModel.className = "player"
-    playerModel.id = "player"
-    playerModel.style.width = PLAYERSIZE + "px"
-    playerModel.style.height = PLAYERSIZE + "px"
-    // playerModel.innerHTML = "Player"
+    this.playerModel.className = "player"
+    this.playerModel.id = "player"
+    this.playerModel.style.width = PLAYERSIZE + "px"
+    this.playerModel.style.height = PLAYERSIZE + "px"
 
     //render player on specific coordinates
-    playerModel.style.left = this.x + "px"
-    playerModel.style.top = this.y + "px"
+    this.playerModel.style.left = this.x + "px"
+    this.playerModel.style.top = this.y + "px"
 
-    gameScreen.appendChild(playerModel)
+    gameScreen.appendChild(this.playerModel)
   }
 
   getTile() {
