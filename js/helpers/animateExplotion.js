@@ -62,13 +62,13 @@ function explodeAnimation(objIn) {
     id = animate(obj, center, EXPLOSION)
   }
 
-  setInterval(() => {
-    console.log("stop explosion")
-    stop()
+  setTimeout(() => {
+    stop(id)
+    obj.style.backgroundPosition = ""
   }, EXPLOSION)
 }
 
-function animate(obj, arr, time) { 
+function animate(obj, arr, time) {
   let num = 1
 
   const interval = time / arr.length / 2
@@ -80,18 +80,22 @@ function animate(obj, arr, time) {
     let currentArr = arr[current]
 
     if (current <= iterations) {
-      obj.style.backgroundPosition = `-${currentArr[0]}px -${currentArr[1]}px`
+      if (currentArr) {
+        obj.style.backgroundPosition = `-${currentArr[0]}px -${currentArr[1]}px`
+      }
     }
 
     if (current === iterations) {
       num = -1
     }
 
-    current += num
+    if (current >= 0) {
+      current += num
+    }
   }, interval)
 }
 
-function stop() {
+function stop(id) {
   clearInterval(id)
 }
 
