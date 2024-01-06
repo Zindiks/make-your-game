@@ -5,14 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bomberman</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
   </head>
   <body>
     <div class="screen">
       <div class="game">
         <div class="hud">
-          <div class="time" id="time">00:00</div>
-          <div class="score" id="score">123456789</div>
+          <div>
+            <label for="time">Time</label>
+            <div class="time" id="time">00:00</div>
+          </div>
+
+          <div>
+            <label for="score">Score</label>
+            <div class="score" id="score"></div>
+          </div>
+
           <div class="lifeBoard">
             <img src="./assets/heart.png" />
             <img src="./assets/heart.png" />
@@ -20,8 +35,29 @@
             <img src="./assets/heart.png" />
           </div>
         </div>
-        <div class="gameScreen" id="gameScreen"></div>
-        <div class="info"></div>
+
+        <div class="gameScreen" id="gameScreen">
+          <div class="pauseScreen" id="pauseScreen">
+            <h1 class="message">BOMBERMAN</h1>
+            <ul>
+              <li><p>Continue</p></li>
+              <li><p>New Game</p></li>
+              <li><p>Restart</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info">
+          <div>
+            <img src="./assets/awsd.png" alt="" />
+            <p>move</p>
+          </div>
+
+          <div>
+            <img src="./assets/space.png" alt="space" />
+            <p>bomb</p>
+          </div>
+        </div>
       </div>
 
       <div class="scoreBoard" id="scoreBoard"></div>
