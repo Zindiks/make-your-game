@@ -62,11 +62,3 @@ function generateMap(map) {
 }
 
 export { map, collisionMap, entities, generateMap };
-
-// 0 == space
-
-// 2 == brekable wall
-// 3 == wall
-// 4 == bomb
-// 5 == fire
-//

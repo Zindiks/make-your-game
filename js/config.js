@@ -2,8 +2,6 @@ const TILESIZE = 32
 const PLAYERSIZE = 32
 const BOMBSPEED = 200 //Milliseconds
 
-
-
 //HERE: DETERMINATED SPRITES POSITIONS 
 const SPRITES = {
   player: {
@@ -36,6 +34,11 @@ const SPRITES = {
   bomb: {
     startPosX: 0,
     endPosX: 64,
+    Y: 96,
+  },
+  breakableWall: {
+    startPosX: 128,
+    endPosX: 320,
     Y: 96,
   },
 }
