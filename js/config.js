@@ -38,7 +38,7 @@ const SPRITES = {
     Y: 96,
   },
   breakableWall: {
-    startPosX: 128,
+    startPosX: 160,
     endPosX: 320,
     Y: 96,
   },
