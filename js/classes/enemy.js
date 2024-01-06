@@ -69,7 +69,6 @@ export class Enemy extends Player{
             let counter = 0;
             for(let bomb of bombGlobalArray){
                 let [breakArray, explosionArray] = bomb.calcBombExplosionArray();
-                console.log(explosionArray);
                 for(let tile of explosionArray){
                     if(allAvailableCoordinates[randomTile][1] != tile.x && allAvailableCoordinates[randomTile][0] != tile.y){
                         counter++;
@@ -163,10 +162,7 @@ export class Enemy extends Player{
                 }
             }
             if (this.x == x && this.y == y){
-                // console.log(`Im on that tile x: ${this.getTile().x}, y: ${this.getTile().y}`);
-                // enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
-
-                // this.placeBomb();
+                
                 this.isMoving = false;
                 clearInterval(test);
             }

@@ -58,7 +58,6 @@ export class Player {
         let bomb_id = generateUniqId(this.bombs);
         //create html element for bomb
         let bomb = document.createElement("div")
-        console.log('player', this);
         const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0, this);
         //add bomb to gamescreen
         gameScreen.appendChild(bomb);

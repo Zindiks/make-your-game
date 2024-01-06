@@ -76,7 +76,7 @@ body {
 .gameScreen {
   display: flex;
   position: relative;
-  /* background-color: rgb(56, 135, 0); */
+  background-color: rgb(56, 135, 0); 
 }
 
 .tile {
