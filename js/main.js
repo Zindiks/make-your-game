@@ -144,7 +144,6 @@ function main() {
     enemy.currentTarget = pathToPlayer[i];
 
     if (enemy.getTile().x == player.getTile().x && enemy.getTile().y == player.getTile().y){
-
       enemy.arrived = true;
       enemy.isMoving = false;
     }
@@ -160,6 +159,12 @@ function main() {
     }
     // console.log(pathToPlayer);
     enemy.currentTarget = [];
+  }
+  if(enemy.arrived){
+    //if enemy finds player then it starts to search again in 1 second
+    setTimeout(() => {
+      enemy.arrived = false;
+    }, 1000);
   }
 
   //ENEMYT DEBUGGING
