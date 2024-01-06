@@ -1,4 +1,5 @@
 import { TILESIZE, PLAYERSIZE } from "../config.js"
+import { Bomb } from "./bomb.js"
 
 export class Player {
   constructor(x, y) {
@@ -7,6 +8,9 @@ export class Player {
     this.speed = 1
     this.bombs = []
     this.maxBomb = 4
+    this.direction = 'idle';
+    this.bombPlacementDelay = 1000; //In milliseconds
+    this.lastBombPlace = Date.now()-this.bombPlacementDelay;
   }
 
   renderPlayer(gameScreen) {
@@ -32,60 +36,53 @@ export class Player {
   }
 
   placeBomb() {
-    if (this.bombs.length < this.maxBomb) {
-      let position = 0
-      let bomb = document.createElement("div")
-      bomb.className = "bomb"
-      //This Boogabooga is needed in order to shift the bomb to the right place,
-      // since the character is not 40x40 px
-      bomb.style.left = Math.floor(this.x / TILESIZE) * TILESIZE + "px"
-      bomb.style.top = Math.floor(this.y / TILESIZE) * TILESIZE + "px"
-
-      gameScreen.appendChild(bomb)
-      this.bombs.push(bomb)
-
-      let animateBomb = setInterval(() => {
-        console.log(position)
-        bomb.style.backgroundPosition = `-${position}px -96px`
-
-        // 32 is a position of bomb image in Sprites
-        if (position < 62) {
-          position += TILESIZE
-        } else {
-          position = 0
+    //add delay between placing multiple bombs
+    if(Date.now() - this.lastBombPlace > this.bombPlacementDelay){
+      //Check if bomb exists in that tile
+      for(let bomb of this.bombs){
+        if(bomb.x == this.getTile().x && bomb.y == this.getTile().y){
+          return;
         }
-      }, 500)
-
-      // Set a timeout for the bomb to explode after 3 seconds
-      setTimeout(() => {
-        clearInterval(animateBomb)
-        this.explode(bomb) // Call the explode function after 3 seconds
-      }, 3000) // 3000 milliseconds = 3 seconds
+      }
+      //check if bomb max is exceeded
+      if (this.bombs.length < this.maxBomb) {
+        //calculate bomb id
+        let bomb_id = Math.floor(Math.random() * 100);
+        while(true){
+          if(!this.bombs.includes(bomb_id)){
+            break
+          } else {
+            bomb_id = Math.floor(Math.random() * 100)
+          }
+        }
+        //create html element for bomb
+        let bomb = document.createElement("div")
+        const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0);
+        this.bombs.push(bombObj);
+        //add bomb to gamescreen
+        gameScreen.appendChild(bomb);
+        this.lastBombPlace = Date.now();
+  
+        // Set a timeout for the bomb to explode after 3 seconds
+        //first animate bomb after 3 seconds explode
+        let animationId = bombObj.animateBomb();
+  
+        setTimeout(() => {
+          clearInterval(animationId);
+          bombObj.explode(); // Call the explode function after 3 seconds
+  
+          //remove the bomb from the array
+          for(let i = 0; i < this.bombs.length; i++){
+            if (this.bombs[i].id == bombObj.id){
+              this.bombs.splice(this.bombs.indexOf(bombObj), 1)
+            }
+          }
+        }, 3000) // 3000 milliseconds = 3 seconds
+  
+      }else{
+        console.log('Bomb max limit exceeded!');
+      }
     }
   }
 
-  //TODO: hardcoded solution
-  explode(bomb) {
-    //
-    bomb.className = "explode"
-
-    setTimeout(() => {
-      bomb.style.backgroundPosition = "-64px -352px"
-    }, 200)
-
-    setTimeout(() => {
-      bomb.style.backgroundPosition = "-224px -192px"
-    }, 200)
-
-    setTimeout(() => {
-      bomb.style.backgroundPosition = "-224px -352px"
-    }, 400)
-
-    setTimeout(() => {
-      bomb.className = "space"
-    }, 1000)
-
-    //reset bombs
-    this.bombs = []
-  }
 }
