@@ -7,14 +7,13 @@ body {
 
 .game {
   display: grid;
-  grid-template-columns: 80% 20%;
-  margin: 100px;
 }
 
 /*-------------------GAME SCREEN STUFF----------------------------*/
 .gameScreen {
   display: flex;
   position: relative;
+  background-color: rgb(56, 135, 0);
 }
 
 .tile {
@@ -22,22 +21,22 @@ body {
 }
 
 .wall {
-  background: url("../tilemap/Sprites.png") -96px -96px;
+  background: url("../assets/Sprites.png") -96px -96px;
 }
 
 .breakable-wall {
-  background: url("../tilemap/Sprites.png") -128px -96px;
+  background: url("../assets/Sprites.png") -128px -96px;
 }
 
 .space {
   background-color: green;
-  background: url("../tilemap/Sprites.png") -160px -160px;
+  background: url("../assets/Sprites.png") -160px -160px;
 }
 
 .player {
   background-color: rgb(255, 255, 0);
   position: absolute;
-  background: url("../tilemap/Sprites.png") 0px 0px;
+  background: url("../assets/Sprites.png") 0px 0px;
   z-index: 10;
 }
 
@@ -45,7 +44,7 @@ body {
   height: 32px;
   width: 32px;
   position: absolute;
-  background: url("../tilemap/Sprites.png") 0px -96px;
+  background: url("../assets/Sprites.png") 0px -96px;
 }
 
 /* ------------------SCORE DISPLAY STUFF-----------------------------*/
@@ -66,5 +65,5 @@ body {
   height: 32px;
   width: 32px;
   position: absolute;
-  background: url("../tilemap/Sprites.png") -32px -96px;
+  background: url("../assets/Sprites.png") -32px -96px;
 }
