@@ -46,7 +46,6 @@ function explodeAnimation(objIn) {
   ]
 
   let id
-
   if (piece === "up" && isLast) {
     id = animate(obj, upLast, EXPLOSION)
   } else if (piece === "down" && isLast) {
@@ -69,8 +68,10 @@ function explodeAnimation(objIn) {
   }, EXPLOSION)
 }
 
-function animate(obj, arr, time) {
-  const interval = time / arr.length
+function animate(obj, arr, time) { 
+  let num = 1
+
+  const interval = time / arr.length / 2
 
   let iterations = arr.length - 1
   let current = 0
@@ -82,7 +83,11 @@ function animate(obj, arr, time) {
       obj.style.backgroundPosition = `-${currentArr[0]}px -${currentArr[1]}px`
     }
 
-    current++
+    if (current === iterations) {
+      num = -1
+    }
+
+    current += num
   }, interval)
 }
 
