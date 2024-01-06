@@ -1,10 +1,10 @@
 import { map, entities, generateMap } from "./maps/map.js"
 import { Player } from "./classes/player.js"
-import { collisionCheck, collisionMapRefresh } from "./helpers/collisionDetection.js"
+import { collisionCheck } from "./helpers/collisionDetection.js"
 
-import { TILESIZE, PLAYERSIZE, SPRITES } from "./config.js"
+import { TILESIZE, SPRITES } from "./config.js"
 import { animate, stopAnimate } from "./script.js"
-import { bombGlobalArray } from "./classes/bomb.js"
+import { Enemy } from "./classes/enemy.js"
 //gameScreen 680 x 680px
 const gameScreen = document.getElementById("gameScreen")
 const gameScreenX = map.length * TILESIZE
@@ -18,6 +18,16 @@ let player = new Player(TILESIZE, TILESIZE) //COORDINATES TOP LEFTs
 //Add player to entities array
 entities.push(player);
 
+//ENEMY
+let enemy = new Enemy(480, 480, 3);
+entities.push(enemy);
+// const enemyTestTiles = [[15, 14], [15, 13], [15, 12], [15,11], [14,11], [13,11],[9,11], [9,10]];
+let pathToPlayer = [];
+let i = 0;
+
+console.log(enemy);
+console.log(player);
+
 let keys = {}
 let animations = {};
 let rightAnimId, leftAnimId, upAnimId, downAnimId;
@@ -29,7 +39,10 @@ animations[downAnimId] = false;
 //Runs before game loop --> initializes everything
 function initGame() {
   generateMap(map)
-  player.renderPlayer(gameScreen)
+  player.renderPlayer(gameScreen);
+  enemy.renderPlayer(gameScreen);
+  enemy.findPath(map, enemy.getTile().x, enemy.getTile().y, player.getTile().x, player.getTile().y).forEach((val) => pathToPlayer.push([val.col, val.row]));
+  console.log(pathToPlayer);
 }
 
 initGame()
@@ -116,12 +129,45 @@ document.addEventListener("keyup", (e) => {
 
 //Main game loop
 function main() {
+  // enemy.moveLeft();
+  // console.log(`enemy x: ${enemy.getTile().x} enemy y: ${enemy.getTile().y}`)
   if(player.lives == 0){
     gameRunning = false;
   }
   if (!gameRunning){
     return
   }
+  //ENEMY MOVEMENT PART
+
+  if(enemy.currentTarget.length == 0 && !enemy.arrived){
+
+    enemy.currentTarget = pathToPlayer[i];
+
+    if (enemy.getTile().x == player.getTile().x && enemy.getTile().y == player.getTile().y){
+
+      enemy.arrived = true;
+      enemy.isMoving = false;
+    }
+  }
+  if(enemy.currentTarget.length > 0 && !enemy.isMoving){
+    enemy.isMoving = true;
+    enemy.moveToTile(enemy.currentTarget[0], enemy.currentTarget[1]);
+    pathToPlayer = [];
+    enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
+    i=0;
+    if (i+1 < pathToPlayer.length){
+      i++;
+    }
+    console.log(pathToPlayer);
+    enemy.currentTarget = [];
+  }
+
+  //ENEMYT DEBUGGING
+  if(keys['i']){
+    console.log(enemy);
+  }
+
+  //PLAYER MOVEMENT
   if (keys["d"]) {
     if (collisionCheck(player.x + player.speed, player.y)) {
       player.x += player.speed
@@ -250,8 +296,11 @@ function main() {
     }
   }
   if (keys["m"]) {
-    console.log(player.bombs)
+    // enemy.moveToTile(10, 5);
     // bombGlobalArray.forEach((val) => console.log(val));
+  }
+  if(keys['p']){
+    console.log(enemy);
   }
   if (keys[" "]) {
       player.placeBomb()

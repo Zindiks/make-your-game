@@ -2,9 +2,11 @@ import { TILESIZE, BOMBSPEED, SPRITES } from "../config.js"
 import { map, entities } from "../maps/map.js"
 import { collisionMapRefresh } from "../helpers/collisionDetection.js"
 import { animate, stopAnimate } from "../script.js"
-import { explodeAnimation, removeBombFromArray } from "../helpers/animateExplotion.js"
+import { explodeAnimation, removeItemFromArray } from "../helpers/animateExplotion.js"
 
 export const bombGlobalArray = [];
+
+const gameScreen = document.getElementById('gameScreen');
 export class Bomb {
   constructor(x, y, id, htmlElem, position) {
     this.x = x
@@ -202,8 +204,8 @@ export class Bomb {
           //clear the animation
           clearTimeout(bomb.timeoutId);
           //remove bombs from both arrays
-          removeBombFromArray(bombGlobalArray, bomb);
-          removeBombFromArray(bombs, bomb);
+          removeItemFromArray(bombGlobalArray, bomb);
+          removeItemFromArray(bombs, bomb);
           //explosion animation
           bomb.explode(bombs);
         }
@@ -226,6 +228,12 @@ export class Bomb {
             let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000, false);
             setTimeout(() => {
               stopAnimate(deadAnimationId)
+              //if enemy then remove from gamescreen
+              if(entity.playerModelName == "enemy"){
+                entity.playerModel.style.backgroundPosition = "";
+                removeItemFromArray(entities, entity);
+                gameScreen.removeChild(entity.playerModel); 
+              }
             }, 1200)
           } else {
             entity.lives--

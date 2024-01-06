@@ -90,6 +90,14 @@ body {
   z-index: 10;
 }
 
+.enemy {
+  background-color: rgb(255, 255, 0);
+  position: absolute;
+  background: url("../assets/Sprites.png") 0px 0px;
+  filter: hue-rotate(150deg);
+  z-index: 10;
+}
+
 .bomb {
   height: 32px;
   width: 32px;

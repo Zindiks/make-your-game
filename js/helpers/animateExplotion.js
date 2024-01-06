@@ -99,7 +99,7 @@ function stop(id) {
   clearTimeout(id)
 }
 
-function removeBombFromArray(bombArr, bomb){
+function removeItemFromArray(bombArr, bomb){
   for(let i = 0; i < bombArr.length; i++){
     if (bombArr[i].id === bomb.id){
       bombArr.splice(i, 1)
@@ -108,4 +108,15 @@ function removeBombFromArray(bombArr, bomb){
   }
 }
 
-export { explodeAnimation, removeBombFromArray }
+function generateUniqId(arr){
+  let id = Math.floor(Math.random() * 100);
+  while(true){
+    if(!arr.includes(id)){
+      return id;
+    } else {
+      id = Math.floor(Math.random() * 100)
+    }
+  }
+}
+
+export { explodeAnimation, removeItemFromArray, generateUniqId }
