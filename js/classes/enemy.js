@@ -63,22 +63,30 @@ export class Enemy extends Player {
             }
         }
         let testingCase = 0;
-        while(testingCase < 100){
+        while(true){
             let randomTile = Math.floor(Math.random() * allAvailableCoordinates.length);
-            // console.log(`Randomtile - ${randomTile}, arrLen - ${allAvailableCoordinates.length}`)
-            let counter = 0;
+            let counterForBombs = 0;
             for(let bomb of bombGlobalArray){
+                let counterForTiles = 0;
                 let [breakArray, explosionArray] = bomb.calcBombExplosionArray();
                 for(let tile of explosionArray){
-                    if(allAvailableCoordinates[randomTile][1] != tile.x && allAvailableCoordinates[randomTile][0] != tile.y){
-                        counter++;
-                        break;
+                    console.log(tile);
+                    if(allAvailableCoordinates[randomTile][0] != tile.x || allAvailableCoordinates[randomTile][1] != tile.y){
+                        counterForTiles++;
                     }
                 }
+                if(counterForTiles == explosionArray.length){
+                    counterForBombs++;
+                }
+
             }
-            if(counter == bombGlobalArray.length){
+            if(counterForBombs == bombGlobalArray.length){
                 return allAvailableCoordinates[randomTile];
             }else{
+                if(testingCase >= 10){
+                    console.log('returning');
+                    return false;
+                }
                 testingCase++;
             }
         }
@@ -92,8 +100,7 @@ export class Enemy extends Player {
         let test = setInterval(() => {
             if(this.isDead){
                 return
-            }
-            if(this.x < x && collisionCheck(this.x+1, this.y)){
+            }else if(this.x < x){
                 this.moveRight();
                 if(this.direction != 'right'){
                     this.stopAnimation();
@@ -110,8 +117,7 @@ export class Enemy extends Player {
                     this.animations[this.rightAnimId] = true;
                 }
 
-            }else if (this.x > x && collisionCheck(this.x-1, this.y)){
-                // this.stopAnimation();
+            }else if (this.x > x){
                 if(this.direction != 'left'){
                     this.stopAnimation();
                 }
@@ -127,7 +133,7 @@ export class Enemy extends Player {
                       )
                     this.animations[this.leftAnimId] = true;
                 }
-            }else if (this.y < y && collisionCheck(this.x, this.y+1)){
+            }else if (this.y < y){
                 this.moveDown();
                 if(this.direction != 'down'){
                     this.stopAnimation();
@@ -144,7 +150,7 @@ export class Enemy extends Player {
                     this.animations[this.downAnimId] = true;
                 }
                 
-            }else if (this.y > y && collisionCheck(this.x, this.y-1)){
+            }else if (this.y > y){
                 if(this.direction != 'up'){
                     this.stopAnimation();
                 }
@@ -160,14 +166,15 @@ export class Enemy extends Player {
                       )
                     this.animations[this.upAnimId] = true;
                 }
-            }
-            if (this.x == x && this.y == y){
-                
+            }else if (this.x == x && this.y == y){
                 this.isMoving = false;
+                this.currentTarget = [];
+                clearInterval(test);
+            }else {
                 clearInterval(test);
             }
         }, 15)
-        
+        // console.log(test);
         // console.log(distance);
     }
 
@@ -247,17 +254,3 @@ class Cell {
   }
 }
 
-// const start_i = 15;
-// const start_j = 15;
-// const end_i = 1;
-// const end_j = 1;
-
-// const path = BFS_2D_Array(map, start_i, start_j, end_i, end_j);
-// const test = [];
-// path.forEach((val) => test.push([val.col, val.row]));
-// console.log(test);
-// if (path !== null) {
-//     console.log(`Path from (${start_i}, ${start_j}) to (${end_i}, ${end_j}):`, path);
-// } else {
-//     console.log(`No path found from (${start_i}, ${start_j}) to (${end_i}, ${end_j}).`);
-// }

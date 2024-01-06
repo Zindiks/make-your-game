@@ -13,6 +13,7 @@ const gameScreenX = map.length * TILESIZE
 const gameScreenY = map.length * TILESIZE
 const score = document.getElementById('score');
 const time = document.getElementById('time');
+const playerLives = document.querySelector('#heart');
 let timeValue = '';
 let seconds = 0;
 let minutes = 0;
@@ -30,7 +31,7 @@ entities.push(player)
 let enemy = new Enemy(480, 480, 3)
 entities.push(enemy)
 // const enemyTestTiles = [[15, 14], [15, 13], [15, 12], [15,11], [14,11], [13,11],[9,11], [9,10]];
-let pathToPlayer = []
+let pathToCoordinates = []
 let newCoords = []
 let i = 0
 
@@ -50,15 +51,16 @@ function initGame() {
   generateMap(map)
   player.renderPlayer(gameScreen)
   enemy.renderPlayer(gameScreen)
+  console.log(enemy.findPath(map, 2, 3, 1, 9));
   enemy
     .findPath(
       map,
-      enemy.getTile().x,
       enemy.getTile().y,
-      player.getTile().x,
-      player.getTile().y
+      enemy.getTile().x,
+      player.getTile().y,
+      player.getTile().x
     )
-    .forEach((val) => pathToPlayer.push([val.col, val.row]))
+    .forEach((val) => pathToCoordinates.push([val.col, val.row]))
   // console.log(pathToPlayer);
 }
 
@@ -143,17 +145,22 @@ document.addEventListener("keyup", (e) => {
   }
 })
 
+
 //Main game loop
 function main() {
-  // edit player score
-  // console.log(`enemy x: ${enemy.getTile().x} enemy y: ${enemy.getTile().y}`)
   if (player.lives == 0) {
     gameRunning = false
   }
   if (!gameRunning) {
     return
   }
+  if(keys['m']){
+    console.log(enemy);
+  }
+
+  // edit player score
   score.innerHTML = player.score;
+
   //handle timer
   if(Date.now()-lastTime > 1000){
     seconds++;
@@ -162,17 +169,15 @@ function main() {
       seconds = 0;
     }
     lastTime = Date.now();
-    if(seconds < 10){
-      timeValue = `0${minutes}:0${seconds}`;
-    }else{
-      if(minutes < 10){
-        timeValue = `0${minutes}:${seconds}`;
-      }else{
-        timeValue = `${minutes}:${seconds}`;
-      }
-    }
+    timeValue = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
   time.innerHTML = timeValue;
+
+  //handle player lives
+  playerLives.innerHTML = player.lives;
+
+
+
   //ENEMY MOVEMENT PART
   if(bombGlobalArray.length > 0){
     if(enemy.state != 'defence'){
@@ -181,66 +186,56 @@ function main() {
   } else if (bombGlobalArray.length == 0) {
     if (enemy.state != "attack") {
       enemy.state = "attack"
-      // enemy.newCoordsAssigned = false;
     }
   }
 
+  //Assign path to enemy
   if(enemy.currentTarget.length == 0 && !enemy.arrived){
-
-    if(pathToPlayer[i]){
-      enemy.currentTarget = pathToPlayer[i];
-    }else{
-      enemy.currentTarget = [];
-    }
+    console.log(pathToCoordinates, 'i', i);
+    enemy.currentTarget = pathToCoordinates[i];
 
     if (enemy.getTile().x == player.getTile().x && enemy.getTile().y == player.getTile().y){
       enemy.arrived = true;
       enemy.isMoving = false;
       player.isDead = true;
-      console.log('player died');
+      player.lives = 0;
+      gameRunning = false;
+      enemy.stopAnimation();
     }
   }
   
-  if(enemy.currentTarget.length > 0 && !enemy.isMoving){
+  if(enemy.currentTarget.length == 2 && !enemy.isMoving){
     enemy.isMoving = true;
+    console.log(enemy.currentTarget);
     enemy.moveToTile(enemy.currentTarget[0], enemy.currentTarget[1]);
-    
     if(enemy.state == 'attack'){
-      pathToPlayer = [];
+      pathToCoordinates = [];
       let pathToCalc = enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x);
-      if(pathToCalc != null){
-        pathToCalc.forEach((val) => pathToPlayer.push([val.col, val.row]));
-      }
+      pathToCalc.forEach((val) => pathToCoordinates.push([val.col, val.row]));
     } else if (enemy.state == "defence") {
       //find suitable coordinates
       if (!enemy.newCoordsAssigned) {
         newCoords = enemy.findCoordinates() //0 - x, 1 - y
         enemy.newCoordsAssigned = true
       }
-      pathToPlayer = []
+      pathToCoordinates = []
       let pathToCalc = enemy.findPath(
         map,
         enemy.getTile().y,
         enemy.getTile().x,
-        newCoords[0],
-        newCoords[1]
+        newCoords[1],
+        newCoords[0]
       )
-      if (pathToCalc != null) {
-        pathToCalc.forEach((val) => pathToPlayer.push([val.col, val.row]))
-      }
-      // console.log(newCoords);
+
+      pathToCalc.forEach((val) => pathToCoordinates.push([val.col, val.row]))
+      
     }
+
     i = 0
-    if (i + 1 < pathToPlayer.length) {
+    if (i + 1 < pathToCoordinates.length) {
       i++
     }
-    enemy.currentTarget = [];
-  }
-  if (enemy.arrived) {
-    //if enemy finds player then it starts to search again in 1 second
-    setTimeout(() => {
-      enemy.arrived = false
-    }, 1000)
+    // enemy.currentTarget = [];
   }
 
   //PLAYER MOVEMENT
@@ -379,6 +374,10 @@ function main() {
     if (player.placeBomb()) {
       enemy.newCoordsAssigned = false
     }
+  }
+  if (keys['n']){
+    console.log(player);
+    console.log(`player x: ${player.getTile().x} player y: ${player.getTile().y}`)
   }
 
   playerModel.style.left = player.x + "px"

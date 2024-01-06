@@ -17,7 +17,7 @@ export class Bomb {
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 10
+    this.power = 2
     this.entityPlaced = entity
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
