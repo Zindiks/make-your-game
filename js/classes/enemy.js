@@ -69,8 +69,9 @@ export class Enemy extends Player{
             let counter = 0;
             for(let bomb of bombGlobalArray){
                 let [breakArray, explosionArray] = bomb.calcBombExplosionArray();
+                console.log(explosionArray);
                 for(let tile of explosionArray){
-                    if(allAvailableCoordinates[randomTile][0] != tile.x && allAvailableCoordinates[randomTile][1] != tile.y){
+                    if(allAvailableCoordinates[randomTile][1] != tile.x && allAvailableCoordinates[randomTile][0] != tile.y){
                         counter++;
                         break;
                     }

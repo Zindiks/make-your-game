@@ -8,13 +8,14 @@ export const bombGlobalArray = [];
 
 const gameScreen = document.getElementById('gameScreen');
 export class Bomb {
-  constructor(x, y, id, htmlElem, position) {
+  constructor(x, y, id, htmlElem, position, entity) {
     this.x = x
     this.y = y
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 10
+    this.power = 2;
+    this.entityPlaced = entity;
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
     htmlElem.style.top = y * TILESIZE + "px"
@@ -153,6 +154,8 @@ export class Bomb {
         SPRITES.breakableWall.Y,
         400
       )
+      //add score to entity
+      // this.entity.score += 100;
       map[item.y][item.x] = 0
       setTimeout(() => {
         stopAnimate(breakBlockAnimationId)

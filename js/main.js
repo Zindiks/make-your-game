@@ -10,6 +10,7 @@ import { bombGlobalArray } from "./classes/bomb.js"
 const gameScreen = document.getElementById("gameScreen")
 const gameScreenX = map.length * TILESIZE
 const gameScreenY = map.length * TILESIZE
+const score = document.getElementById('score');
 
 gameScreen.style.width = gameScreenX
 gameScreen.style.height = gameScreenY
@@ -130,7 +131,8 @@ document.addEventListener("keyup", (e) => {
 
 //Main game loop
 function main() {
-  // enemy.moveLeft();
+  // edit player score
+  score.innerHTML = player.score;
   // console.log(`enemy x: ${enemy.getTile().x} enemy y: ${enemy.getTile().y}`)
   if(player.lives == 0){
     gameRunning = false;
@@ -148,7 +150,7 @@ function main() {
   }else if (bombGlobalArray.length == 0){
     if(enemy.state != 'attack'){
       enemy.state = 'attack';
-      enemy.newCoordsAssigned = false;
+      // enemy.newCoordsAssigned = false;
     }
   }
 
@@ -159,6 +161,7 @@ function main() {
     if (enemy.getTile().x == player.getTile().x && enemy.getTile().y == player.getTile().y){
       enemy.arrived = true;
       enemy.isMoving = false;
+      player.isDead = true;
     }
   }
   if(enemy.currentTarget.length > 0 && !enemy.isMoving){
@@ -167,7 +170,10 @@ function main() {
     // console.log(enemy.state);
     if(enemy.state == 'attack'){
       pathToPlayer = [];
-      enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
+      let pathToCalc = enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x);
+      if(pathToCalc != null){
+        pathToCalc.forEach((val) => pathToPlayer.push([val.col, val.row]));
+      }
     }else if (enemy.state == 'defence'){
       //find suitable coordinates
       if(!enemy.newCoordsAssigned){
@@ -175,7 +181,10 @@ function main() {
         enemy.newCoordsAssigned = true;
       }
       pathToPlayer = [];
-      enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, newCoords[0], newCoords[1]).forEach((val) => pathToPlayer.push([val.col, val.row]));
+      let pathToCalc = enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, newCoords[0], newCoords[1])
+      if(pathToCalc != null){
+        pathToCalc.forEach((val) => pathToPlayer.push([val.col, val.row]))
+      }
       console.log(newCoords);
     }
     i=0;
@@ -194,7 +203,7 @@ function main() {
 
   //ENEMYT DEBUGGING
   if(keys['i']){
-    console.log(enemy);
+    console.log(player);
   }
 
   //PLAYER MOVEMENT
@@ -333,7 +342,9 @@ function main() {
     console.log(enemy);
   }
   if (keys[" "]) {
-      player.placeBomb()
+      if(player.placeBomb()){
+        enemy.newCoordsAssigned = false;
+      }
   }
   if (keys["t"]) {
     console.log(

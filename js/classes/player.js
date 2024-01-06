@@ -10,7 +10,7 @@ export class Player {
     this.id = generateUniqId(entities);
     this.speed = 1
     this.bombs = []
-    this.maxBomb = 4
+    this.maxBomb = 2;
     this.direction = 'idle';
     this.bombPlacementDelay = 1000; //In milliseconds
     this.lastBombPlace = Date.now()-this.bombPlacementDelay;
@@ -19,6 +19,7 @@ export class Player {
     this.playerModel = document.createElement("div")
     this.playerModelName = "player";
     this.isDead = false;
+    this.score = 0;
   }
 
   renderPlayer(gameScreen) {
@@ -48,7 +49,7 @@ export class Player {
       //Check if bomb exists in that tile
       for(let bomb of this.bombs){
         if(bomb.x == this.getTile().x && bomb.y == this.getTile().y){
-          return;
+          return false;
         }
       }
       //check if bomb max is exceeded
@@ -57,7 +58,7 @@ export class Player {
         let bomb_id = generateUniqId(this.bombs);
         //create html element for bomb
         let bomb = document.createElement("div")
-        const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0);
+        const bombObj = new Bomb(this.getTile().x, this.getTile().y, bomb_id, bomb, 0, this);
         //add bomb to gamescreen
         gameScreen.appendChild(bomb);
         this.lastBombPlace = Date.now();
@@ -79,9 +80,13 @@ export class Player {
         }, 3000) // 3000 milliseconds = 3 seconds
         //add bombs to global table
         bombGlobalArray.push(bombObj);
+        return true;
       }else{
         console.log('Bomb max limit exceeded!');
+        return false;
       }
+    }else{
+      return false;
     }
   }
 
