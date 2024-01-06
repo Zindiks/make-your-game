@@ -5,6 +5,7 @@ import { collisionCheck } from "./helpers/collisionDetection.js"
 import { TILESIZE, SPRITES } from "./config.js"
 import { animate, stopAnimate } from "./script.js"
 import { Enemy } from "./classes/enemy.js"
+import { bombGlobalArray } from "./classes/bomb.js"
 //gameScreen 680 x 680px
 const gameScreen = document.getElementById("gameScreen")
 const gameScreenX = map.length * TILESIZE
@@ -23,6 +24,7 @@ let enemy = new Enemy(480, 480, 3);
 entities.push(enemy);
 // const enemyTestTiles = [[15, 14], [15, 13], [15, 12], [15,11], [14,11], [13,11],[9,11], [9,10]];
 let pathToPlayer = [];
+let newCoords = [];
 let i = 0;
 
 console.log(enemy);
@@ -42,7 +44,7 @@ function initGame() {
   player.renderPlayer(gameScreen);
   enemy.renderPlayer(gameScreen);
   enemy.findPath(map, enemy.getTile().x, enemy.getTile().y, player.getTile().x, player.getTile().y).forEach((val) => pathToPlayer.push([val.col, val.row]));
-  console.log(pathToPlayer);
+  // console.log(pathToPlayer);
 }
 
 initGame()
@@ -138,6 +140,18 @@ function main() {
     return
   }
   //ENEMY MOVEMENT PART
+  if(bombGlobalArray.length > 0){
+    // console.log('test');
+    if(enemy.state != 'defence'){
+      enemy.state = 'defence';
+      // console.log(enemy.findCoordinates());
+    }
+  }else if (bombGlobalArray.length == 0){
+    if(enemy.state != 'attack'){
+      enemy.state = 'attack';
+      enemy.newCoordsAssigned = false;
+    }
+  }
 
   if(enemy.currentTarget.length == 0 && !enemy.arrived){
 
@@ -151,8 +165,20 @@ function main() {
   if(enemy.currentTarget.length > 0 && !enemy.isMoving){
     enemy.isMoving = true;
     enemy.moveToTile(enemy.currentTarget[0], enemy.currentTarget[1]);
-    pathToPlayer = [];
-    enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
+    // console.log(enemy.state);
+    if(enemy.state == 'attack'){
+      pathToPlayer = [];
+      enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
+    }else if (enemy.state == 'defence'){
+      //find suitable coordinates
+      if(!enemy.newCoordsAssigned){
+        newCoords = enemy.findCoordinates(); //0 - x, 1 - y
+        enemy.newCoordsAssigned = true;
+      }
+      pathToPlayer = [];
+      enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, newCoords[0], newCoords[1]).forEach((val) => pathToPlayer.push([val.col, val.row]));
+      console.log(newCoords);
+    }
     i=0;
     if (i+1 < pathToPlayer.length){
       i++;
