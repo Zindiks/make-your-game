@@ -158,7 +158,7 @@ function main() {
     if (i+1 < pathToPlayer.length){
       i++;
     }
-    console.log(pathToPlayer);
+    // console.log(pathToPlayer);
     enemy.currentTarget = [];
   }
 

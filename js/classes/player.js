@@ -18,6 +18,7 @@ export class Player {
     this.isVulnerableToDmg = true;
     this.playerModel = document.createElement("div")
     this.playerModelName = "player";
+    this.isDead = false;
   }
 
   renderPlayer(gameScreen) {

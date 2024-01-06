@@ -225,6 +225,12 @@ export class Bomb {
             entity.lives = 0
             console.log("gameover")
             //animate death, death screen etc
+            if(entity.playerModelName == 'enemy'){
+              console.log('enemy died');
+              console.log(entity);
+              entity.isDead = true;
+              entity.stopAnimation();
+            }
             let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000, false);
             setTimeout(() => {
               stopAnimate(deadAnimationId)
