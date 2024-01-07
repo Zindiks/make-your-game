@@ -8,7 +8,7 @@ body {
 
   background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
 
-  backdrop-filter: hue-rotate(120deg) blur(20px);
+  backdrop-filter: hue-rotate(120deg) blur(40px);
   width: 100vw;
   height: 100vh;
 }
