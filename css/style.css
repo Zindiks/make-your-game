@@ -8,7 +8,7 @@ body {
 
   background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
 
-  backdrop-filter: hue-rotate(120deg) blur(20px);
+  backdrop-filter: hue-rotate(120deg) blur(40px);
   width: 100vw;
   height: 100vh;
 }
@@ -63,7 +63,7 @@ body {
 .gameScreen {
   display: flex;
   position: relative;
-  background-color: rgb(56, 135, 0);
+  /* background-color: rgb(56, 135, 0); */
 }
 
 .tile {
@@ -72,6 +72,7 @@ body {
 
 .wall {
   background: url("../assets/Sprites.png") -96px -96px;
+  filter: hue-rotate(180deg);
 }
 
 .breakable-wall {
@@ -88,6 +89,7 @@ body {
   position: absolute;
   background: url("../assets/Sprites.png") 0px 0px;
   z-index: 10;
+  filter: hue-rotate(30deg);
 }
 
 .bomb {
