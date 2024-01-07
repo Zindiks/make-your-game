@@ -3,11 +3,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: black;
-  background-image: url("https://media4.giphy.com/media/xT39D7Tp84ZyeG5Xi0/giphy.gif?cid=ecf05e47kzryhdjvblyhgl6c7cqdp1adbjk0g1uh9xcpbc99&ep=v1_gifs_related&rid=giphy.gif&ct=g");
-  background-size: cover;
-  background-position: "-60px -60px";
-  /* backdrop-filter: blur(10px); */
+  /* background-image: url("https://media4.giphy.com/media/xT39D7Tp84ZyeG5Xi0/giphy.gif?cid=ecf05e47kzryhdjvblyhgl6c7cqdp1adbjk0g1uh9xcpbc99&ep=v1_gifs_related&rid=giphy.gif&ct=g");
+  background-size: cover; */
 
+  background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
+
+  backdrop-filter: hue-rotate(120deg) blur(20px);
   width: 100vw;
   height: 100vh;
 }
@@ -32,7 +33,7 @@ body {
   opacity: 0.5;
   margin-bottom: 10px;
   border-radius: 10px;
-  border: 4px solid black;
+  /* border: 4px solid black; */
 
   /* backdrop-filter: blur(2px); */
 }
@@ -44,7 +45,7 @@ body {
   opacity: 0.5;
   margin-top: 10px;
   border-radius: 10px;
-  border: 4px solid black;
+  /* border: 4px solid black; */
   /* backdrop-filter: blur(2px); */
 }
 
@@ -54,7 +55,7 @@ body {
   background-color: rgb(176, 176, 176);
   opacity: 0.5;
   border-radius: 10px;
-  border: 4px solid black;
+  /* border: 4px solid black; */
   /* backdrop-filter: blur(10px); */
 }
 
@@ -63,7 +64,6 @@ body {
   display: flex;
   position: relative;
   background-color: rgb(56, 135, 0);
-  border: 4px solid black;
 }
 
 .tile {
