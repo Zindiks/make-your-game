@@ -11,7 +11,7 @@ export class Bomb {
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 2;
+    this.power = 10
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
     htmlElem.style.top = y * TILESIZE + "px"
@@ -192,37 +192,47 @@ export class Bomb {
       explodeAnimation(item)
       //check for player / enemy collision with bomb
       for (let entity of entities) {
-        if (entity.getTile().x == item.x && entity.getTile().y == item.y && entity.isVulnerableToDmg) {
+        if (
+          entity.getTile().x == item.x &&
+          entity.getTile().y == item.y &&
+          entity.isVulnerableToDmg
+        ) {
           console.log(`${entity} got hit!`)
-          if(entity.lives == 1){
-            entity.lives = 0;
-            console.log('gameover');
+          if (entity.lives == 1) {
+            entity.lives = 0
+            console.log("gameover")
             //animate death, death screen etc
-            let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000);
+            let deadAnimationId = animate(
+              entity.playerModel,
+              SPRITES.player.dead.startPosX,
+              SPRITES.player.dead.endPosX,
+              SPRITES.player.dead.Y,
+              1000
+            )
             setTimeout(() => {
-              stopAnimate(deadAnimationId);
+              stopAnimate(deadAnimationId)
             }, 1200)
-          }else{
-            entity.lives--;
+          } else {
+            entity.lives--
             console.log(entity.lives)
-            entity.isVulnerableToDmg = false;
+            entity.isVulnerableToDmg = false
             //animation wheter character takes damage or no, just opcaity controller
-            let opacityController = 0.2;
-            let plusOrMinus = 1;
+            let opacityController = 0.2
+            let plusOrMinus = 1
             let playerDeadAnim = setInterval(() => {
-              entity.playerModel.style.opacity = 1 - opacityController;
+              entity.playerModel.style.opacity = 1 - opacityController
               opacityController += 0.2 * plusOrMinus
-              if (opacityController <= 0.4){
-                plusOrMinus *= -1;
+              if (opacityController <= 0.4) {
+                plusOrMinus *= -1
               }
             }, 100)
 
             //Player takes damage again, and remove the animation which shows that player does not take damage
             setTimeout(() => {
-              clearInterval(playerDeadAnim);
+              clearInterval(playerDeadAnim)
               entity.isVulnerableToDmg = true
-              entity.playerModel.style.opacity = 1;
-            }, 3000);
+              entity.playerModel.style.opacity = 1
+            }, 3000)
           }
         }
       }
