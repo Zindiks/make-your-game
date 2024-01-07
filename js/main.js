@@ -6,8 +6,11 @@ import {
 } from "./helpers/collisionDetection.js"
 
 import { TILESIZE, PLAYERSIZE, SPRITES } from "./config.js"
+
 import { animate, stopAnimate } from "./script.js"
+
 import { bombGlobalArray } from "./classes/bomb.js"
+
 import { socket } from "./services/websocket.js"
 
 //gameScreen 680 x 680px
