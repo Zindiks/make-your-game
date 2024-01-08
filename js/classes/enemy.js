@@ -4,6 +4,7 @@ import { TILESIZE } from "../config.js";
 import { collisionCheck } from "../helpers/collisionDetection.js";
 import { animate, stopAnimate } from "../script.js";
 import { SPRITES } from "../config.js";
+import { bombGlobalArray } from "./bomb.js";
 
 export class Enemy extends Player{
     constructor(x, y){
@@ -14,7 +15,9 @@ export class Enemy extends Player{
         this.playerModel = document.createElement('div');
         this.currentTarget = [];
         this.isMoving = false;
-        this.arrived = false;
+        this.arrived = false; // arrived to its destination
+        this.state = 'attack'; //attack means it follows players and places bombs whenever its near him //// defence means its trying to avoid bombs;
+        this.newCoordsAssigned = false;
         //Animation stuff
         this.animations = {};
         this.rightAnimId = undefined;
@@ -45,6 +48,41 @@ export class Enemy extends Player{
     moveRight(){
         this.x += 1 * this.speed;
         this.playerModel.style.left = this.x + "px"
+    }
+
+    findCoordinates(){
+        let allAvailableCoordinates = [];
+        for(let i = 0; i < map.length; i++){
+            for(let j = 0; j < map[i].length; j++){
+                if(map[i][j] == 0){
+                    allAvailableCoordinates.push([j, i]);
+
+                    //x == j
+                    //y == i
+                }
+            }
+        }
+        let testingCase = 0;
+        while(testingCase < 100){
+            let randomTile = Math.floor(Math.random() * allAvailableCoordinates.length);
+            // console.log(`Randomtile - ${randomTile}, arrLen - ${allAvailableCoordinates.length}`)
+            let counter = 0;
+            for(let bomb of bombGlobalArray){
+                let [breakArray, explosionArray] = bomb.calcBombExplosionArray();
+                for(let tile of explosionArray){
+                    if(allAvailableCoordinates[randomTile][0] != tile.x && allAvailableCoordinates[randomTile][1] != tile.y){
+                        counter++;
+                        break;
+                    }
+                }
+            }
+            if(counter == bombGlobalArray.length){
+                return allAvailableCoordinates[randomTile];
+            }else{
+                testingCase++;
+            }
+        }
+
     }
 
     moveToTile(x, y){

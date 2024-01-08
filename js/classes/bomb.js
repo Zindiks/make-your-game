@@ -38,132 +38,8 @@ export class Bomb {
     //remove bomb sprite
     this.htmlElem.className = "space"
 
-    let explosionArray = [
-      { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false , bomb_id: this.id},
-    ]
-    let breakArray = []
-    let down,
-      right,
-      up,
-      left = false
     //calculates bomb directions and how far the bomb explodes
-    for (let i = 1; i <= this.power; i++) {
-      //check if index goes out of range
-
-      if (this.y + i < map.length && map[this.y + i][this.x] == 0 && !down) {
-        if (i == this.power) {
-          explosionArray.push({
-            x: this.x,
-            y: this.y + i,
-            exPower: i,
-            piece: "down",
-            isLast: true,
-            bomb_id: this.id,
-          })
-        } else {
-          explosionArray.push({
-            x: this.x,
-            y: this.y + i,
-            exPower: i,
-            piece: "down",
-            bomb_id: this.id,
-          })
-        }
-        //breaking logic
-      } else if (
-        this.y + i < map.length &&
-        map[this.y + i][this.x] == 2 &&
-        !down
-      ) {
-        breakArray.push({ x: this.x, y: this.y + i })
-        down = true
-      } else {
-        down = true
-      }
-      if (
-        this.x + i < map[0].length &&
-        map[this.y][this.x + i] == 0 &&
-        !right
-      ) {
-        if (i == this.power) {
-          explosionArray.push({
-            x: this.x + i,
-            y: this.y,
-            exPower: i,
-            piece: "right",
-            isLast: true,
-            bomb_id: this.id,
-          })
-        } else {
-          explosionArray.push({
-            x: this.x + i,
-            y: this.y,
-            exPower: i,
-            piece: "right",
-            bomb_id: this.id,
-          })
-        }
-      } else if (
-        this.x + i < map[0].length &&
-        map[this.y][this.x + i] == 2 &&
-        !right
-      ) {
-        breakArray.push({ x: this.x + i, y: this.y })
-        right = true
-      } else {
-        right = true
-      }
-      if (this.y - i >= 0 && map[this.y - i][this.x] == 0 && !up) {
-        if (i == this.power) {
-          explosionArray.push({
-            x: this.x,
-            y: this.y - i,
-            exPower: i,
-            piece: "up",
-            isLast: true,
-            bomb_id: this.id,
-          })
-        } else {
-          explosionArray.push({
-            x: this.x,
-            y: this.y - i,
-            exPower: i,
-            piece: "up",
-            bomb_id: this.id,
-          })
-        }
-      } else if (this.y - i >= 0 && map[this.y - i][this.x] == 2 && !up) {
-        breakArray.push({ x: this.x, y: this.y - i })
-        up = true
-      } else {
-        up = true
-      }
-      if (this.x - i >= 0 && map[this.y][this.x - i] == 0 && !left) {
-        if (i == this.power) {
-          explosionArray.push({
-            x: this.x - i,
-            y: this.y,
-            exPower: i,
-            piece: "left",
-            isLast: true,
-            bomb_id: this.id,
-          })
-        } else {
-          explosionArray.push({
-            x: this.x - i,
-            y: this.y,
-            exPower: i,
-            piece: "left",
-            bomb_id: this.id,
-          })
-        }
-      } else if (this.x - i >= 0 && map[this.y][this.x - i] == 2 && !left) {
-        breakArray.push({ x: this.x - i, y: this.y })
-        left = true
-      } else {
-        left = true
-      }
-    }
+    let [breakArray, explosionArray] = this.calcBombExplosionArray(); 
 
     //Check which block is which vertical/horisontal/end piece
     let directionCount = {}
@@ -287,5 +163,135 @@ export class Bomb {
 
     collisionMapRefresh(map)
 
+  }
+
+  calcBombExplosionArray(){
+    let down,
+    right,
+    up,
+    left = false
+    let explosionArray = [
+      { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false , bomb_id: this.id},
+    ]
+    let breakArray = []
+    for (let i = 1; i <= this.power; i++) {
+      //check if index goes out of range
+
+      if (this.y + i < map.length && map[this.y + i][this.x] == 0 && !down) {
+        if (i == this.power) {
+          explosionArray.push({
+            x: this.x,
+            y: this.y + i,
+            exPower: i,
+            piece: "down",
+            isLast: true,
+            bomb_id: this.id,
+          })
+        } else {
+          explosionArray.push({
+            x: this.x,
+            y: this.y + i,
+            exPower: i,
+            piece: "down",
+            bomb_id: this.id,
+          })
+        }
+        //breaking logic
+      } else if (
+        this.y + i < map.length &&
+        map[this.y + i][this.x] == 2 &&
+        !down
+      ) {
+        breakArray.push({ x: this.x, y: this.y + i })
+        down = true
+      } else {
+        down = true
+      }
+      if (
+        this.x + i < map[0].length &&
+        map[this.y][this.x + i] == 0 &&
+        !right
+      ) {
+        if (i == this.power) {
+          explosionArray.push({
+            x: this.x + i,
+            y: this.y,
+            exPower: i,
+            piece: "right",
+            isLast: true,
+            bomb_id: this.id,
+          })
+        } else {
+          explosionArray.push({
+            x: this.x + i,
+            y: this.y,
+            exPower: i,
+            piece: "right",
+            bomb_id: this.id,
+          })
+        }
+      } else if (
+        this.x + i < map[0].length &&
+        map[this.y][this.x + i] == 2 &&
+        !right
+      ) {
+        breakArray.push({ x: this.x + i, y: this.y })
+        right = true
+      } else {
+        right = true
+      }
+      if (this.y - i >= 0 && map[this.y - i][this.x] == 0 && !up) {
+        if (i == this.power) {
+          explosionArray.push({
+            x: this.x,
+            y: this.y - i,
+            exPower: i,
+            piece: "up",
+            isLast: true,
+            bomb_id: this.id,
+          })
+        } else {
+          explosionArray.push({
+            x: this.x,
+            y: this.y - i,
+            exPower: i,
+            piece: "up",
+            bomb_id: this.id,
+          })
+        }
+      } else if (this.y - i >= 0 && map[this.y - i][this.x] == 2 && !up) {
+        breakArray.push({ x: this.x, y: this.y - i })
+        up = true
+      } else {
+        up = true
+      }
+      if (this.x - i >= 0 && map[this.y][this.x - i] == 0 && !left) {
+        if (i == this.power) {
+          explosionArray.push({
+            x: this.x - i,
+            y: this.y,
+            exPower: i,
+            piece: "left",
+            isLast: true,
+            bomb_id: this.id,
+          })
+        } else {
+          explosionArray.push({
+            x: this.x - i,
+            y: this.y,
+            exPower: i,
+            piece: "left",
+            bomb_id: this.id,
+          })
+        }
+      } else if (this.x - i >= 0 && map[this.y][this.x - i] == 2 && !left) {
+        breakArray.push({ x: this.x - i, y: this.y })
+        left = true
+      } else {
+        left = true
+      }
+    }
+
+    return [breakArray, explosionArray];
   }
 }
