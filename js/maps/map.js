@@ -1,15 +1,15 @@
-import { collisionMapRefresh } from "../helpers/collisionDetection.js";
-import { TILESIZE } from "../config.js";
+import { collisionMapRefresh } from "../helpers/collisionDetection.js"
+import { TILESIZE } from "../config.js"
 
 const map = [
   [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-  [3, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+  [3, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
   [3, 0, 3, 2, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3],
-  [3, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+  [3, 2, 0, 2, 0, 2, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
   [3, 0, 3, 0, 3, 2, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3],
-  [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+  [3, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
   [3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3],
-  [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+  [3, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 3],
   [3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3],
   [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
   [3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3],
@@ -21,8 +21,8 @@ const map = [
   [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 ]
 
-const collisionMap = [];
-const entities = [];
+const collisionMap = []
+const entities = []
 
 function generateMap(map) {
   for (let i = 0; i < map.length; i++) {
@@ -38,7 +38,7 @@ function generateMap(map) {
 
       switch (map[j][i]) {
         case 3:
-          tile.classList.add("wall");
+          tile.classList.add("wall")
           tile.classList.add(`${j}-${i}`)
           break
         case 0:
@@ -54,11 +54,11 @@ function generateMap(map) {
       }
 
       //create collisionMap aswell
-      collisionMapRefresh(map);
+      collisionMapRefresh(map)
       column.appendChild(tile)
     }
     gameScreen.appendChild(column)
   }
 }
 
-export { map, collisionMap, entities, generateMap };
+export { map, collisionMap, entities, generateMap }
