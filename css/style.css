@@ -1,14 +1,17 @@
+* {
+  font-family: "Pixelify Sans", sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: black;
-  /* background-image: url("https://media4.giphy.com/media/xT39D7Tp84ZyeG5Xi0/giphy.gif?cid=ecf05e47kzryhdjvblyhgl6c7cqdp1adbjk0g1uh9xcpbc99&ep=v1_gifs_related&rid=giphy.gif&ct=g");
-  background-size: cover; */
+  /* background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
+*/
+  backdrop-filter: hue-rotate(270deg);
 
-  background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
-
-  backdrop-filter: hue-rotate(120deg) blur(40px);
+  background-image: url("https://wallpapercave.com/wp/wp3311326.jpg");
   width: 100vw;
   height: 100vh;
 }
@@ -25,13 +28,31 @@ body {
   display: grid;
 }
 
+.pauseScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1000;
+
+  margin: 0 auto;
+}
+
+.pauseScreen .message {
+  color: white;
+}
+
+.pauseScreen ul {
+  list-style-type: none;
+}
+
+.pauseScreen ul li {
+  color: white;
+}
+
 .hud {
   width: auto;
-
   background-color: rgb(176, 176, 176);
-  opacity: 0.5;
-  margin-bottom: 10px;
-  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   text-align: center;
@@ -39,8 +60,6 @@ body {
 }
 
 .lifeBoard {
-  border: 1px solid black;
-  border-radius: 10px;
   margin: 0;
   padding: 0;
 }
@@ -49,25 +68,36 @@ body {
   margin: 0;
   padding: 0;
   height: 24px;
+  transform: scale(2);
 }
 
 .info {
   width: auto;
-  height: 100px;
+  height: 75px;
   background-color: rgb(176, 176, 176);
-  opacity: 0.5;
-  margin-top: 10px;
-  border-radius: 10px;
+  display: flex;
   /* border: 4px solid black; */
   /* backdrop-filter: blur(2px); */
+  padding: 10px;
+}
+
+.info div {
+  margin-right: 20px;
+}
+.info div img {
+  width: 70px;
+}
+
+.info div p {
+  margin: 0;
+  padding: 0;
 }
 
 .scoreBoard {
   width: 400px;
   height: auto;
   background-color: rgb(176, 176, 176);
-  opacity: 0.5;
-  border-radius: 10px;
+
   /* border: 4px solid black; */
   /* backdrop-filter: blur(10px); */
 }
@@ -76,7 +106,7 @@ body {
 .gameScreen {
   display: flex;
   position: relative;
-  /* background-color: rgb(56, 135, 0); */
+  background-color: rgb(56, 135, 0);
 }
 
 .tile {
