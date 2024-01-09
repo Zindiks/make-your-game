@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "player": "Fred",
+      "score": 30
+    },
+    {
+      "player": "Josh",
+      "score": 500
+    },
+    {
+      "player": "Kim",
+      "score": 700
+    }
+  ]
+}
