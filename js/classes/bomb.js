@@ -2,11 +2,14 @@ import { TILESIZE, BOMBSPEED, SPRITES } from "../config.js"
 import { map, entities } from "../maps/map.js"
 import { collisionMapRefresh } from "../helpers/collisionDetection.js"
 import { animate, stopAnimate } from "../script.js"
-import { explodeAnimation, removeItemFromArray } from "../helpers/animateExplotion.js"
+import {
+  explodeAnimation,
+  removeItemFromArray,
+} from "../helpers/animateExplotion.js"
 
-export const bombGlobalArray = [];
+export const bombGlobalArray = []
 
-const gameScreen = document.getElementById('gameScreen');
+const gameScreen = document.getElementById("gameScreen")
 export class Bomb {
   constructor(x, y, id, htmlElem, position, entity) {
     this.x = x
@@ -14,8 +17,8 @@ export class Bomb {
     this.id = id
     this.htmlElem = htmlElem
     this.position = position
-    this.power = 2;
-    this.entityPlaced = entity;
+    this.power = 10
+    this.entityPlaced = entity
     //Place bomb to the field
     htmlElem.style.left = x * TILESIZE + "px"
     htmlElem.style.top = y * TILESIZE + "px"
@@ -40,7 +43,7 @@ export class Bomb {
     this.htmlElem.className = "space"
 
     //calculates bomb directions and how far the bomb explodes
-    let [breakArray, explosionArray] = this.calcBombExplosionArray(); 
+    let [breakArray, explosionArray] = this.calcBombExplosionArray()
 
     //Check which block is which vertical/horisontal/end piece
     let directionCount = {}
@@ -76,15 +79,19 @@ export class Bomb {
     for (let item of explosionArray) {
       let tile = document.getElementsByClassName(`${item.y}-${item.x}`)
       //check if there is another bomb in the way
-      for(let bomb of bombGlobalArray){
-        if(bomb.x === item.x && bomb.y === item.y && bomb.id !== item.bomb_id){
+      for (let bomb of bombGlobalArray) {
+        if (
+          bomb.x === item.x &&
+          bomb.y === item.y &&
+          bomb.id !== item.bomb_id
+        ) {
           //clear the animation
-          clearTimeout(bomb.timeoutId);
+          clearTimeout(bomb.timeoutId)
           //remove bombs from both arrays
-          removeItemFromArray(bombGlobalArray, bomb);
-          removeItemFromArray(bombs, bomb);
+          removeItemFromArray(bombGlobalArray, bomb)
+          removeItemFromArray(bombs, bomb)
           //explosion animation
-          bomb.explode(bombs);
+          bomb.explode(bombs)
         }
       }
       //animate bomb
@@ -102,20 +109,27 @@ export class Bomb {
             entity.lives = 0
             console.log("gameover")
             //animate death, death screen etc
-            if(entity.playerModelName == 'enemy'){
-              console.log('enemy died');
-              console.log(entity);
-              entity.isDead = true;
-              entity.stopAnimation();
+            if (entity.playerModelName == "enemy") {
+              console.log("enemy died")
+              console.log(entity)
+              entity.isDead = true
+              entity.stopAnimation()
             }
-            let deadAnimationId = animate(entity.playerModel, SPRITES.player.dead.startPosX, SPRITES.player.dead.endPosX, SPRITES.player.dead.Y, 1000, false);
+            let deadAnimationId = animate(
+              entity.playerModel,
+              SPRITES.player.dead.startPosX,
+              SPRITES.player.dead.endPosX,
+              SPRITES.player.dead.Y,
+              1000,
+              false
+            )
             setTimeout(() => {
               stopAnimate(deadAnimationId)
               //if enemy then remove from gamescreen
-              if(entity.playerModelName == "enemy"){
-                entity.playerModel.style.backgroundPosition = "";
-                removeItemFromArray(entities, entity);
-                gameScreen.removeChild(entity.playerModel); 
+              if (entity.playerModelName == "enemy") {
+                entity.playerModel.style.backgroundPosition = ""
+                removeItemFromArray(entities, entity)
+                gameScreen.removeChild(entity.playerModel)
               }
             }, 1200)
           } else {
@@ -165,16 +179,22 @@ export class Bomb {
     }
 
     collisionMapRefresh(map)
-
   }
 
-  calcBombExplosionArray(){
+  calcBombExplosionArray() {
     let down,
-    right,
-    up,
-    left = false
+      right,
+      up,
+      left = false
     let explosionArray = [
-      { x: this.x, y: this.y, exPower: 0, piece: "center", isLast: false , bomb_id: this.id},
+      {
+        x: this.x,
+        y: this.y,
+        exPower: 0,
+        piece: "center",
+        isLast: false,
+        bomb_id: this.id,
+      },
     ]
     let breakArray = []
     for (let i = 1; i <= this.power; i++) {
@@ -295,6 +315,6 @@ export class Bomb {
       }
     }
 
-    return [breakArray, explosionArray];
+    return [breakArray, explosionArray]
   }
 }

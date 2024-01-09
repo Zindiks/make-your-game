@@ -7,10 +7,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: black;
-  /* background-image: url("https://media4.giphy.com/media/YR1SITLjG5B0P4sUr3/giphy.gif?cid=ecf05e47twuhn8qjc5mho64uix68bel7n87nfsabsa2ha6cf&ep=v1_gifs_related&rid=giphy.gif&ct=g");
-*/
   backdrop-filter: hue-rotate(270deg);
-
   background-image: url("https://wallpapercave.com/wp/wp3311326.jpg");
   width: 100vw;
   height: 100vh;
@@ -26,80 +23,6 @@ body {
 
 .game {
   display: grid;
-}
-
-.pauseScreen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  z-index: 1000;
-
-  margin: 0 auto;
-}
-
-.pauseScreen .message {
-  color: white;
-}
-
-.pauseScreen ul {
-  list-style-type: none;
-}
-
-.pauseScreen ul li {
-  color: white;
-}
-
-.hud {
-  width: auto;
-  background-color: rgb(176, 176, 176);
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  padding: 10px;
-}
-
-.lifeBoard {
-  margin: 0;
-  padding: 0;
-}
-
-.lifeBoard img {
-  margin: 0;
-  padding: 0;
-  height: 24px;
-  transform: scale(2);
-}
-
-.info {
-  width: auto;
-  height: 75px;
-  background-color: rgb(176, 176, 176);
-  display: flex;
-  /* border: 4px solid black; */
-  /* backdrop-filter: blur(2px); */
-  padding: 10px;
-}
-
-.info div {
-  margin-right: 20px;
-}
-.info div img {
-  width: 70px;
-}
-
-.info div p {
-  margin: 0;
-  padding: 0;
-}
-
-.scoreBoard {
-  width: 400px;
-  height: auto;
-  background-color: rgb(176, 176, 176);
-
-  /* border: 4px solid black; */
-  /* backdrop-filter: blur(10px); */
 }
 
 /*-------------------GAME SCREEN STUFF----------------------------*/
@@ -132,7 +55,7 @@ body {
   position: absolute;
   background: url("../assets/Sprites.png") 0px 0px;
   z-index: 10;
-  filter: hue-rotate(30deg);
+  filter: hue-rotate(0deg);
 }
 
 .enemy {
@@ -150,6 +73,13 @@ body {
   background: url("../assets/Sprites.png") 0px -96px;
 }
 
+.explode {
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  background: url("../assets/Sprites.png") -32px -96px;
+}
+
 /* ------------------SCORE DISPLAY STUFF-----------------------------*/
 .scoreDisplay {
   background-color: red;
@@ -158,15 +88,85 @@ body {
 }
 
 /* -------------------INSTRUCTION STUFF-------------------------------*/
+
 .instructions {
-  background-color: aqua;
-  width: 10vh;
-  height: 300px;
+  width: auto;
+  height: 75px;
+  background-color: rgb(176, 176, 176);
+  display: flex;
+  /* border: 4px solid black; */
+  /* backdrop-filter: blur(2px); */
+  padding: 10px;
 }
 
-.explode {
-  height: 32px;
-  width: 32px;
+.instructions div {
+  margin-right: 20px;
+}
+.instructions div img {
+  width: 70px;
+}
+
+.instructions div p {
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------HUD STUFF-------------------------------*/
+
+.hud {
+  width: auto;
+  background-color: rgb(176, 176, 176);
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding: 10px;
+}
+
+.lifeBoard {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+}
+
+.lifeBoard img {
+  margin: 0;
+  padding: 0;
+  height: 24px;
+  transform: scale(2);
   position: absolute;
-  background: url("../assets/Sprites.png") -32px -96px;
+  top: 12px;
+  right: 20px;
+}
+
+/* -------------------MENU STUFF-------------------------------*/
+.menu {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1000;
+
+  margin: 0 auto;
+  /* display: none; */
+}
+
+.menu .message {
+  color: white;
+}
+
+.menu ul {
+  list-style-type: none;
+}
+
+.menu ul li {
+  color: white;
+}
+
+/* -------------------SCOREBOARD STUFF-------------------------------*/
+
+.scoreBoard {
+  width: 400px;
+  height: auto;
+  background-color: rgb(176, 176, 176);
 }

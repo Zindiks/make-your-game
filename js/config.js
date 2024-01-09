@@ -42,9 +42,6 @@ const SPRITES = {
     endPosX: 320,
     Y: 96,
   },
-
-
-  
 }
 
 export { TILESIZE, PLAYERSIZE, SPRITES, BOMBSPEED, EXPLOSION }
