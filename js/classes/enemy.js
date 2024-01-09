@@ -57,125 +57,119 @@ export class Enemy extends Player {
         if (map[i][j] == 0) {
           allAvailableCoordinates.push([j, i])
 
-          //x == j
-          //y == i
+                    //x == j
+                    //y == i
+                }
+            }
         }
-      }
-    }
-    let testingCase = 0
-    while (testingCase < 100) {
-      let randomTile = Math.floor(
-        Math.random() * allAvailableCoordinates.length
-      )
-      // console.log(`Randomtile - ${randomTile}, arrLen - ${allAvailableCoordinates.length}`)
-      let counter = 0
-      for (let bomb of bombGlobalArray) {
-        let [breakArray, explosionArray] = bomb.calcBombExplosionArray()
-        console.log(explosionArray)
-        for (let tile of explosionArray) {
-          if (
-            allAvailableCoordinates[randomTile][1] != tile.x &&
-            allAvailableCoordinates[randomTile][0] != tile.y
-          ) {
-            counter++
-            break
-          }
+        let testingCase = 0;
+        while(testingCase < 100){
+            let randomTile = Math.floor(Math.random() * allAvailableCoordinates.length);
+            // console.log(`Randomtile - ${randomTile}, arrLen - ${allAvailableCoordinates.length}`)
+            let counter = 0;
+            for(let bomb of bombGlobalArray){
+                let [breakArray, explosionArray] = bomb.calcBombExplosionArray();
+                for(let tile of explosionArray){
+                    if(allAvailableCoordinates[randomTile][1] != tile.x && allAvailableCoordinates[randomTile][0] != tile.y){
+                        counter++;
+                        break;
+                    }
+                }
+            }
+            if(counter == bombGlobalArray.length){
+                return allAvailableCoordinates[randomTile];
+            }else{
+                testingCase++;
+            }
         }
-      }
-      if (counter == bombGlobalArray.length) {
-        return allAvailableCoordinates[randomTile]
-      } else {
-        testingCase++
-      }
+
     }
-  }
 
   moveToTile(x, y) {
     x *= TILESIZE
     y *= TILESIZE
 
-    let test = setInterval(() => {
-      if (this.isDead) {
-        return
-      }
-      if (this.x < x && collisionCheck(this.x + 1, this.y)) {
-        this.moveRight()
-        if (this.direction != "right") {
-          this.stopAnimation()
-        }
-        this.direction = "right"
-        if (!this.animations[this.rightAnimId]) {
-          this.rightAnimId = animate(
-            this.playerModel,
-            SPRITES.player.right.startPosX,
-            SPRITES.player.right.endPosX,
-            SPRITES.player.right.Y,
-            200
-          )
-          this.animations[this.rightAnimId] = true
-        }
-      } else if (this.x > x && collisionCheck(this.x - 1, this.y)) {
-        // this.stopAnimation();
-        if (this.direction != "left") {
-          this.stopAnimation()
-        }
-        this.direction = "left"
-        this.moveLeft()
-        if (!this.animations[this.leftAnimId]) {
-          this.leftAnimId = animate(
-            this.playerModel,
-            SPRITES.player.left.startPosX,
-            SPRITES.player.left.endPosX,
-            SPRITES.player.left.Y,
-            200
-          )
-          this.animations[this.leftAnimId] = true
-        }
-      } else if (this.y < y && collisionCheck(this.x, this.y + 1)) {
-        this.moveDown()
-        if (this.direction != "down") {
-          this.stopAnimation()
-        }
-        this.direction = "down"
-        if (!this.animations[this.downAnimId]) {
-          this.downAnimId = animate(
-            this.playerModel,
-            SPRITES.player.down.startPosX,
-            SPRITES.player.down.endPosX,
-            SPRITES.player.down.Y,
-            200
-          )
-          this.animations[this.downAnimId] = true
-        }
-      } else if (this.y > y && collisionCheck(this.x, this.y - 1)) {
-        if (this.direction != "up") {
-          this.stopAnimation()
-        }
-        this.direction = "up"
-        this.moveUp()
-        if (!this.animations[this.upAnimId]) {
-          this.upAnimId = animate(
-            this.playerModel,
-            SPRITES.player.up.startPosX,
-            SPRITES.player.up.endPosX,
-            SPRITES.player.up.Y,
-            200
-          )
-          this.animations[this.upAnimId] = true
-        }
-      }
-      if (this.x == x && this.y == y) {
-        // console.log(`Im on that tile x: ${this.getTile().x}, y: ${this.getTile().y}`);
-        // enemy.findPath(map, enemy.getTile().y, enemy.getTile().x, player.getTile().y, player.getTile().x).forEach((val) => pathToPlayer.push([val.col, val.row]));
+        let test = setInterval(() => {
+            if(this.isDead){
+                return
+            }
+            if(this.x < x && collisionCheck(this.x+1, this.y)){
+                this.moveRight();
+                if(this.direction != 'right'){
+                    this.stopAnimation();
+                }
+                this.direction = 'right';
+                if(!this.animations[this.rightAnimId]){
+                    this.rightAnimId = animate(
+                        this.playerModel,
+                        SPRITES.player.right.startPosX,
+                        SPRITES.player.right.endPosX,
+                        SPRITES.player.right.Y,
+                        200
+                      )
+                    this.animations[this.rightAnimId] = true;
+                }
 
-        // this.placeBomb();
-        this.isMoving = false
-        clearInterval(test)
-      }
-    }, 15)
-
-    // console.log(distance);
-  }
+            }else if (this.x > x && collisionCheck(this.x-1, this.y)){
+                // this.stopAnimation();
+                if(this.direction != 'left'){
+                    this.stopAnimation();
+                }
+                this.direction = 'left';
+                this.moveLeft();
+                if(!this.animations[this.leftAnimId]){
+                    this.leftAnimId = animate(
+                        this.playerModel,
+                        SPRITES.player.left.startPosX,
+                        SPRITES.player.left.endPosX,
+                        SPRITES.player.left.Y,
+                        200
+                      )
+                    this.animations[this.leftAnimId] = true;
+                }
+            }else if (this.y < y && collisionCheck(this.x, this.y+1)){
+                this.moveDown();
+                if(this.direction != 'down'){
+                    this.stopAnimation();
+                }
+                this.direction = 'down';
+                if(!this.animations[this.downAnimId]){
+                    this.downAnimId = animate(
+                        this.playerModel,
+                        SPRITES.player.down.startPosX,
+                        SPRITES.player.down.endPosX,
+                        SPRITES.player.down.Y,
+                        200
+                      )
+                    this.animations[this.downAnimId] = true;
+                }
+                
+            }else if (this.y > y && collisionCheck(this.x, this.y-1)){
+                if(this.direction != 'up'){
+                    this.stopAnimation();
+                }
+                this.direction = 'up'
+                this.moveUp();
+                if(!this.animations[this.upAnimId]){
+                    this.upAnimId = animate(
+                        this.playerModel,
+                        SPRITES.player.up.startPosX,
+                        SPRITES.player.up.endPosX,
+                        SPRITES.player.up.Y,
+                        200
+                      )
+                    this.animations[this.upAnimId] = true;
+                }
+            }
+            if (this.x == x && this.y == y){
+                
+                this.isMoving = false;
+                clearInterval(test);
+            }
+        }, 15)
+        
+        // console.log(distance);
+    }
 
   stopAnimation() {
     for (let item of Object.keys(this.animations)) {

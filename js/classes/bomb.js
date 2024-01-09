@@ -107,13 +107,13 @@ export class Bomb {
           console.log(`${entity} got hit!`)
           if (entity.lives == 1) {
             entity.lives = 0
-            console.log("gameover")
+            // console.log("gameover")
             //animate death, death screen etc
-            if (entity.playerModelName == "enemy") {
-              console.log("enemy died")
-              console.log(entity)
-              entity.isDead = true
-              entity.stopAnimation()
+            if(entity.playerModelName == 'enemy'){
+              console.log('enemy died');
+              this.entityPlaced.score += 1000;
+              entity.isDead = true;
+              entity.stopAnimation();
             }
             let deadAnimationId = animate(
               entity.playerModel,
@@ -166,10 +166,11 @@ export class Bomb {
         SPRITES.breakableWall.startPosX,
         SPRITES.breakableWall.endPosX,
         SPRITES.breakableWall.Y,
-        400
+        400,
+        false,
       )
       //add score to entity
-      // this.entity.score += 100;
+      this.entityPlaced.score += 100;
       map[item.y][item.x] = 0
       setTimeout(() => {
         stopAnimate(breakBlockAnimationId)
