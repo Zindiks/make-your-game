@@ -1,4 +1,4 @@
-import { TILESIZE } from "./config.js"
+import { TILESIZE } from "../config.js"
 
 function animate(obj, start, end, y, cycle, turningBack = true) {
   let currentPosition = start
@@ -10,12 +10,12 @@ function animate(obj, start, end, y, cycle, turningBack = true) {
       obj.style.backgroundPosition = `-${currentPosition}px -${y}px`
     }
 
-    currentPosition += TILESIZE * reverse;
+    currentPosition += TILESIZE * reverse
     if (currentPosition < end) {
-      if(turningBack){
-        reverse *= -1;
+      if (turningBack) {
+        reverse *= -1
       }
-    } 
+    }
   }, interval)
 }
 

@@ -148,7 +148,7 @@ body {
   z-index: 1000;
 
   margin: 0 auto;
-  /* display: none; */
+  display: none;
 }
 
 .menu .message {

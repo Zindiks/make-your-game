@@ -1,7 +1,7 @@
 import { TILESIZE, BOMBSPEED, SPRITES } from "../config.js"
 import { map, entities } from "../maps/map.js"
 import { collisionMapRefresh } from "../helpers/collisionDetection.js"
-import { animate, stopAnimate } from "../script.js"
+import { animate, stopAnimate } from "../helpers/animate.js"
 import {
   explodeAnimation,
   removeItemFromArray,

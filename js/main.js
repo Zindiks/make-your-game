@@ -3,7 +3,7 @@ import { Player } from "./classes/player.js"
 import { collisionCheck } from "./helpers/collisionDetection.js"
 
 import { TILESIZE, SPRITES } from "./config.js"
-import { animate, stopAnimate } from "./script.js"
+import { animate, stopAnimate } from "./helpers/animate.js"
 import { Enemy } from "./classes/enemy.js"
 import { bombGlobalArray } from "./classes/bomb.js"
 import { menu } from "./components/menu.js"
@@ -381,7 +381,6 @@ function main() {
 
   requestAnimationFrame(main)
 }
-
 
 //Start the main loop
 requestAnimationFrame(main)

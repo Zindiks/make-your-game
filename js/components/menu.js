@@ -4,7 +4,10 @@ const menu = document.querySelector("#menu")
 //1. START MENU
 //2. PAUSE MENU
 
-function startMenu() {}
+function startMenu(
+
+    
+) {}
 
 function pauseMenu() {}
 
