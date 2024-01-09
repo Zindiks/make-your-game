@@ -149,10 +149,28 @@ body {
 
   margin: 0 auto;
   display: none;
+
+  flex-direction: column;
+  color: white;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
 }
 
 .menu .message {
   color: white;
+  margin: 0 auto;
+}
+
+.menu button {
+  width: 200px;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin: 0px auto;
+}
+
+.menu button:hover {
+  background-color: aliceblue;
 }
 
 .menu ul {
@@ -161,6 +179,10 @@ body {
 
 .menu ul li {
   color: white;
+}
+
+.menu .logo {
+  padding: 30px;
 }
 
 /* -------------------SCOREBOARD STUFF-------------------------------*/

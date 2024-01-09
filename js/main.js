@@ -6,18 +6,19 @@ import { TILESIZE, SPRITES } from "./config.js"
 import { animate, stopAnimate } from "./helpers/animate.js"
 import { Enemy } from "./classes/enemy.js"
 import { bombGlobalArray } from "./classes/bomb.js"
-import { menu } from "./components/menu.js"
+import { menu, startMenu } from "./components/menu.js"
+import { instructionsBoard } from "./components/instructions.js"
 //gameScreen 680 x 680px
 const gameScreen = document.getElementById("gameScreen")
 const gameScreenX = map.length * TILESIZE
 const gameScreenY = map.length * TILESIZE
-const score = document.getElementById('score');
-const time = document.getElementById('time');
+const score = document.getElementById("score")
+const time = document.getElementById("time")
+let timeValue = ""
+let seconds = 0
+let minutes = 0
+let lastTime = Date.now()
 const playerLives = document.querySelector('#heart');
-let timeValue = '';
-let seconds = 0;
-let minutes = 0;
-let lastTime = Date.now();
 
 gameScreen.style.width = gameScreenX
 gameScreen.style.height = gameScreenY
@@ -48,6 +49,8 @@ animations[downAnimId] = false
 
 //Runs before game loop --> initializes everything
 function initGame() {
+  startMenu()
+  instructionsBoard()
   generateMap(map)
   player.renderPlayer(gameScreen)
   enemy.renderPlayer(gameScreen)
@@ -148,12 +151,19 @@ document.addEventListener("keyup", (e) => {
 
 //Main game loop
 function main() {
+  // edit player score
+  if (keys["m"]) {
+    console.log(enemy)
+  }
+
+  // console.log(`enemy x: ${enemy.getTile().x} enemy y: ${enemy.getTile().y}`)
   if (player.lives == 0) {
     gameRunning = false
   }
   if (!gameRunning) {
     return
   }
+  score.innerHTML = player.score
   if(keys['m']){
     console.log(enemy);
   }
@@ -162,16 +172,26 @@ function main() {
   score.innerHTML = player.score;
 
   //handle timer
-  if(Date.now()-lastTime > 1000){
-    seconds++;
-    if(seconds == 60){
-      minutes++;
-      seconds = 0;
+  if (Date.now() - lastTime > 1000) {
+    seconds++
+    if (seconds == 60) {
+      minutes++
+      seconds = 0
+    }
+    lastTime = Date.now()
+    if (seconds < 10) {
+      timeValue = `0${minutes}:0${seconds}`
+    } else {
+      if (minutes < 10) {
+        timeValue = `0${minutes}:${seconds}`
+      } else {
+        timeValue = `${minutes}:${seconds}`
+      }
     }
     lastTime = Date.now();
     timeValue = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
-  time.innerHTML = timeValue;
+  time.innerHTML = timeValue
 
   //handle player lives
   playerLives.innerHTML = player.lives;
@@ -179,9 +199,9 @@ function main() {
 
 
   //ENEMY MOVEMENT PART
-  if(bombGlobalArray.length > 0){
-    if(enemy.state != 'defence'){
-      enemy.state = 'defence';
+  if (bombGlobalArray.length > 0) {
+    if (enemy.state != "defence") {
+      enemy.state = "defence"
     }
   } else if (bombGlobalArray.length == 0) {
     if (enemy.state != "attack") {
@@ -189,11 +209,25 @@ function main() {
     }
   }
 
+  if (enemy.currentTarget.length == 0 && !enemy.arrived) {
+    if (pathToPlayer[i]) {
+      enemy.currentTarget = pathToPlayer[i]
+    } else {
+      enemy.currentTarget = []
+    }
   //Assign path to enemy
   if(enemy.currentTarget.length == 0 && !enemy.arrived){
     console.log(pathToCoordinates, 'i', i);
     enemy.currentTarget = pathToCoordinates[i];
 
+    if (
+      enemy.getTile().x == player.getTile().x &&
+      enemy.getTile().y == player.getTile().y
+    ) {
+      enemy.arrived = true
+      enemy.isMoving = false
+      player.isDead = true
+      console.log("player died")
     if (enemy.getTile().x == player.getTile().x && enemy.getTile().y == player.getTile().y){
       enemy.arrived = true;
       enemy.isMoving = false;
@@ -367,8 +401,8 @@ function main() {
     }
   }
 
-  if(keys['p']){
-    gameRunning = false;
+  if (keys["p"]) {
+    gameRunning = false
   }
   if (keys[" "]) {
     if (player.placeBomb()) {
